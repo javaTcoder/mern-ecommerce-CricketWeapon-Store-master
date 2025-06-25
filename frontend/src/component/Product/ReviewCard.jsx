@@ -142,7 +142,9 @@ const ReviewCard = ({ product }) => {
       </Grid>
       <div className={classes.container}>
         {product.reviews &&
-          product.reviews.map((review) => <MyCard review={review} />)}
+          product.reviews.map((review, idx) => (
+            <MyCard key={review._id || idx} review={review} />
+          ))}
       </div>
     </div>
   );

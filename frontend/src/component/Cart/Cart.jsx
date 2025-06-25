@@ -129,6 +129,7 @@ const Cart = () => {
                 {cartItems &&
                   cartItems.map((item) => (
                     <Link
+                      key={item.productId}
                       to="#"
                       style={{ textDecoration: "none", color: "none" }}
                     >

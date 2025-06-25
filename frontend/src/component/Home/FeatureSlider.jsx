@@ -11,7 +11,7 @@ import {
   generateDiscountedPrice,
 } from "../DisplayMoney/DisplayMoney";
 const FeaturedSlider = ({ products }) => {
- 
+  if (!products.length) return null;
   return (
     <Swiper
       modules={[EffectCoverflow, Pagination, A11y, Autoplay]}
@@ -59,7 +59,7 @@ const FeaturedSlider = ({ products }) => {
             >
               <div className="featured_title">{name}</div>
               <figure className="featured_img">
-                <img src={images[0].url} alt={name} />
+                <img src={images && images[0] ? images[0].url : ""} alt={name} />
               </figure>
               <h2 className="products_price">
                 <span className="final_price">{newPrice}</span> &nbsp;
