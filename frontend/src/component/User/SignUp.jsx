@@ -127,6 +127,11 @@ function Signup() {
       setLoading(false);
       return;
     }
+    if (!avatar) {
+    toast.error("Please upload a profile picture (avatar) to register.");
+    setLoading(false);
+    return;
+  }
 
     const formData = new FormData();
     formData.set("name", name);

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from "react-toastify";
+
 import {
   LOGIN_REQUEST,
   LOGIN_FAIL,
@@ -106,7 +108,7 @@ export const load_UserProfile = () => async (dispatch) => {
        dispatch({ type: LOAD_USER_SUCCESS, payload: user });
     } else {
       // If user data is not available in session storage, make a backend API call
-      const { data } = await axios.get("/api/v1/profile", { withCredentials: true })
+      const { data } = await axios.get("/api/v1/profile")
         // .then(res => console.log(res.data))
         // .catch(err => console.error(err));
    
@@ -116,9 +118,15 @@ export const load_UserProfile = () => async (dispatch) => {
       sessionStorage.setItem("user", JSON.stringify(data.user));
     }
   } catch (error) {
-    console.error(error);
+  if (error.response && error.response.status === 401) {
+    // Show a custom message for unauthorized users
+      toast.info("Please login first.");
+    dispatch({ type: LOAD_USER_FAIL, payload: null });
+  } else {
+    toast.error(error.message);
     dispatch({ type: LOAD_USER_FAIL, payload: error.message });
   }
+}
 };
 
 
