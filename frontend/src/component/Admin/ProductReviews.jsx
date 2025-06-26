@@ -275,7 +275,7 @@ function ProductReviews() {
       flex: 1,
       headerClassName: "column-header hide-on-mobile",
       cellClassName: (params) => {
-        return params.getValue(params.id, "recommend") === true
+        return params.row.recommend === true
           ? "greenColor"
           : "redColor"; // if rating of review greater then class green else red
       },
@@ -289,7 +289,7 @@ function ProductReviews() {
       flex: 0.5,
       headerClassName: "column-header hide-on-mobile",
       cellClassName: (params) => {
-        return params.getValue(params.id, "rating") >= 3
+        return params.row.rating >= 3
           ? "greenColor"
           : "redColor"; // if rating of review greater then class green else red
       },
@@ -307,7 +307,7 @@ function ProductReviews() {
           <>
             <div 
               onClick={() =>
-                deleteReviewHandler(params.getValue(params.id, "id"))
+                deleteReviewHandler(params.row.id)
               }
             >
               <DeleteIcon className="iconbtn" style={{ marginLeft: "1rem" }} />

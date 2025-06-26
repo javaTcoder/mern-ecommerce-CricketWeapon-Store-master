@@ -76,7 +76,7 @@ function UserList() {
       flex: 0.3,
       headerClassName: "column-header hide-on-mobile",
       cellClassName: (params) => {
-        return params.getValue(params.id, "role") === "admin"
+        return params.row.role === "admin"
           ? "greenColor"
           : "redColor";
       },
@@ -92,13 +92,13 @@ function UserList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/admin/user/${params.getValue(params.id, "id")}`}>
+            <Link to={`/admin/user/${params.row.id}`}>
               <EditIcon className="icon-" />
             </Link>
 
             <Button
               onClick={() =>
-                deleteUserHandler(params.getValue(params.id, "id"))
+                deleteUserHandler(params.row.id)
               }
             >
               <DeleteIcon className="iconbtn" />

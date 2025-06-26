@@ -121,11 +121,11 @@ const columns = [
     renderCell: (params) => {
       return (
         <>
-          <Link to={`/admin/order/${params.getValue(params.id, "id")}`}>
+          <Link to={`/admin/order/${params.row.id}`}>
             <EditIcon className="icon-" />
           </Link>
           <Link
-            onClick={() => deleteOrderHandler(params.getValue(params.id, "id"))}
+            onClick={() => deleteOrderHandler(params.row.id)}
           >
             <DeleteIcon className="iconbtn" />
           </Link>

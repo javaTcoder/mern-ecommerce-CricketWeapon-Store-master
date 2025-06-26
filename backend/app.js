@@ -4,7 +4,7 @@ const errorMiddleware = require("./middleWare/error");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload"); // used for image and other files
-
+//const path = require("path");
 const cors = require("cors");
 
 
@@ -28,7 +28,6 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(fileUpload());
 app.use(errorMiddleware);
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 
 app.use("/api/v1", product);
@@ -36,9 +35,19 @@ app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", payment);
 
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 
 
+// if (process.env.NODE_ENV !== "production") {
+// }
+
+//  if (process.env.NODE_ENV === "production") {
+//  	app.use(express.static(path.join(__dirname, "../frontend/build")));
+//     app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
+//     });
+//  }
 
 
 

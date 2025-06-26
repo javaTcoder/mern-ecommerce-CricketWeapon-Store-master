@@ -93,7 +93,7 @@ const columns = [
       return (
         <>
           <Link
-            to={`/admin/product/${params.getValue(params.id, "id")}`}
+            to={`/admin/product/${params.row.id}`}
             style={{ marginLeft: "1rem" }}
           >
             <EditIcon className="icon-" />
@@ -101,7 +101,7 @@ const columns = [
 
           <div
             onClick={() =>
-              deleteProductHandler(params.getValue(params.id, "id"))
+              deleteProductHandler(params.row.id)
             }
           >
             <DeleteIcon className="iconbtn" />
