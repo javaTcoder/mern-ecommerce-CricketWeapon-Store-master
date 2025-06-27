@@ -1,15 +1,41 @@
 import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
-  formContainer: {
+   formContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     paddingTop: "7rem",
     paddingBottom: "3rem",
     height: "auto",
-
     backgroundColor: "white",
+    minHeight: "100vh", // Ensure it takes full viewport height for centering
   },
+
+  successPaper: {
+    width: "400px", // Adjust width as needed
+    margin: "auto",
+    padding: theme.spacing(4), // Use theme spacing for consistent padding
+    borderRadius: "8px", // Slightly more rounded corners
+    textAlign: "center", // Center content within the paper
+    boxShadow: theme.shadows[5], // Add a subtle shadow for depth, you can adjust the elevation value (0-24)
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+
+  bodyText: {
+    color: "#555",
+    marginBottom: theme.spacing(4), // More space before the button
+  },
+  resendButton: {
+    padding: theme.spacing(1.5, 4), // Consistent padding
+    fontWeight: 600,
+    backgroundColor: theme.palette.primary.main, // Use primary color from theme
+    "&:hover": {
+      backgroundColor: theme.palette.primary.dark, // Darken on hover
+    },
+  },
+
   form: {
     width: "350px",
     margin: "auto",
@@ -19,9 +45,10 @@ const useStyles = makeStyles((theme) => ({
 
   heading: {
     textAlign: "center",
-    marginBottom: theme.spacing(3),
-    color: "#414141",
-    fontWeight: "bold",
+    //marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(2), // Use theme spacing
+    color: "#414141", // Consistent with your existing styles
+    fontWeight: "bold", // Keep bold for emphasis
   },
   nameInput: {
     position: "relative",

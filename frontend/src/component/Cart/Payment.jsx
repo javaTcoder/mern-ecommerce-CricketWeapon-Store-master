@@ -350,6 +350,8 @@ const PaymentComponent = () => {
   const [couponCode, setCouponCode] = useState("");
   const [isValid, setIsValid] = useState(true);
     const [showDummyCard, setShowDummyCard] = useState(false);
+    const [selectedPayment, setSelectedPayment] = useState("card");
+
 
 
   const subTotal = cartItems.reduce((acc, currItem) => {
@@ -401,10 +403,21 @@ const PaymentComponent = () => {
 
   async function paymentSubmitHandler(e) {
     e.preventDefault();
+
+    if (selectedPayment === "cod") {
+    dispatch(createOrder({ ...order, paymentInfo: { id: "COD", status: "Pending" } }));
+    toast.success("Order placed with Cash on Delivery!");
+    history.push("/success");
+    return;
+    }
+    
     if(nameOnCard === ""){
       toast.error("Please enter name on card");
       return;
     }
+    const confirm = window.confirm("Are you sure you want to place the order and pay with your card?");
+    if (!confirm) 
+      return;
 
     try {
       const config = {
@@ -614,6 +627,21 @@ const PaymentComponent = () => {
                 <CreditCardIcon fontSize="medium" />
                 {showDummyCard && <DummyCard onClose={handleCloseDummyCard} />}
               </div>
+              <div className={classes.cardSelection}>
+                <Radio
+                  value="cod"
+                  className={classes.radio}
+                  checked={showDummyCard === false && selectedPayment === "cod"}
+                  onChange={() => setSelectedPayment("cod")}
+                />
+                <Typography variant="subtitle2" className={classes.radioText}>
+                  Cash on Delivery (COD)
+                </Typography>
+              </div>
+
+
+
+
               <Typography
                 variant="body2"
                 className={classes.termsAndConditionsText}

@@ -20,6 +20,7 @@ const user = require("./route/userRoute");
 const order = require("./route/orderRoute");
 const product = require("./route/productRoute")
 const payment = require("./route/paymentRoute");
+const emailVerification = require("./route/emailVerificationRoute");
 
 // for req.cookie to get token while autentication
 app.use(cookieParser());
@@ -29,7 +30,8 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(fileUpload());
 app.use(errorMiddleware);
 
-
+app.use("/api/v1", emailVerification);
+// app.use("/api/v1", emailVerification); // for email verification
 app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);

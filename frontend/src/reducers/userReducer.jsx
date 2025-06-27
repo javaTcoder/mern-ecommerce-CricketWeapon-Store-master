@@ -61,10 +61,18 @@ export const userReducer = (state = initialState, action) => {
         error: null,
       };
 
-    case LOGIN_SUCCESS:
     case REGISTER_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isAuthenticated: false, // User is NOT authenticated after registration
+        registrationSuccess: true, // Use this flag in your SignUp component
+        message: action.payload,   // Store backend message
+        error: null,
+      };
+
+    case LOGIN_SUCCESS:
     case LOAD_USER_SUCCESS:
- 
       return {
         ...state,
         loading: false,

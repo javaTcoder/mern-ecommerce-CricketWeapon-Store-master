@@ -9,6 +9,7 @@ import CricketBallLoader from "./component/layouts/loader/Loader";
 import PrivateRoute from "./component/Route/PrivateRoute";
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import "./App.css";
+import VerifyEmail from "./component/User/VerifyEmail";
 
 import Header from "./component/layouts/Header1.jsx/Header";
 import Payment from "./component/Cart/Payment";
@@ -173,6 +174,18 @@ function App() {
               <>
                 {<Header />}
                 <Login />
+                <Services />
+                {<Footer />}
+              </>
+            )}
+          />
+          <Route
+            exact
+            path="/verify-email"
+            render={() => (
+              <>
+                {<Header />}
+                <VerifyEmail />
                 <Services />
                 {<Footer />}
               </>

@@ -78,7 +78,7 @@ const footMenu = [
       {
         id: 1,
         link: "About Us",
-        path: "/about",
+        path: "/about_us",
       },
       {
         id: 2,

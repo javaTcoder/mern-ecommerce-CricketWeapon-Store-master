@@ -5,19 +5,30 @@ const sendJWtToken = require("../utils/JwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const cloudinary = require("cloudinary");
+const { sendVerificationEmail } = require("./emailVerificationController");
 
 
 // signUp controller>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-exports.registerUser = asyncWrapper(async (req, res) => {
+exports.registerUser = asyncWrapper(async (req, res, next) => {
   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
     folder: "Avatar", // this folder cloudainry data base manage by us
     width: 150,
     crop: "scale",
+
+    
   });
 
 
 
   const { name, email, password } = req.body;
+
+  // Check if user already exists
+  const existingUser = await userModel.findOne({ email });
+  if (existingUser) {
+    return next(new ErrorHandler("Email already registered. Please login or use another email.", 400));
+  }
+
+
   const user = await userModel.create({
     name,
     password,
@@ -26,10 +37,16 @@ exports.registerUser = asyncWrapper(async (req, res) => {
       public_id: myCloud.public_id,
       url: myCloud.secure_url,
     },
+    isVerified: false, // explicitly set, though default is false
   });
 
-  // sending the res and staus code along with token using sendJWtToken method
-  sendJWtToken(user, 201, res);
+
+  // Send verification email
+  req.body.email = email; // so sendVerificationEmail can use it
+  await sendVerificationEmail(req, res, next);
+
+
+
 });
 
 // Login User >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -46,6 +63,13 @@ exports.loginUser = asyncWrapper(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler("Invalid email or password", 401));
   }
+
+  // Check if email is verified
+  if (!user.isVerified) {
+    return next(new ErrorHandler("Please verify your email before logging in.", 401));
+  }
+
+
 
   // comparePassword method defind in useSchema by use . it will comapre this password to hashfrom password at database
   const isPasswordMatched = await user.comparePassword(password);
@@ -171,7 +195,7 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
 });
 
 //// Get User Detail  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-exports.getUserDetails = asyncWrapper(async (req, res) => {
+exports.getUserDetails = asyncWrapper(async (req, res, next) => {
 
   const user = await userModel.findById(req.user.id); // user.id because we set that user into as user.req when user gose autentiction. becauae all data of users set into req.user. only user when logged in then access this function
   res.status(200).json({
