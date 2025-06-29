@@ -1,4 +1,4 @@
-# Cricket Weapon E-Commerce Shopping App
+# Product Trust E-Commerce Shopping App
 ---
 ### ⚙️ &nbsp; Time Taken to Complete this Project :
 <p align="center">
@@ -14,7 +14,7 @@
 
 ## Introduction
 ---
-Welcome to Cricket Weapon, an e-commerce shopping app built using the MERN (MongoDB, Express, React, Node.js) stack and Material-UI (MUI) for the user interface. This project provides both normal user and admin modes, offering a wide range of features to enhance the shopping experience.
+Welcome to Product Trust, an e-commerce shopping app built using the MERN (MongoDB, Express, React, Node.js) stack and Material-UI (MUI) for the user interface. This project provides both normal user and admin modes, offering a wide range of features to enhance the shopping experience.
 
 ## Demo
 

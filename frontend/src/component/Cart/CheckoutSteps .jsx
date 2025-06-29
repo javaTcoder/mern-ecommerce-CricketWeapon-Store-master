@@ -135,11 +135,15 @@ const CheckoutSteps = ({ activeStep }) => {
   return (
     <div className={classes.stepReader} style={{ marginTop: "7rem" }}>
       <div className={classes.root}>
-        <Stepper activeStep={activeStep} connector={<ColorlibConnector />}>
+        <Stepper
+          activeStep={activeStep}
+          connector={<ColorlibConnector />}
+          alternativeLabel
+          StepIconComponent={ColorlibStepIcon} // <-- ADD HERE
+        >
           {steps.map((step, index) => (
             <Step key={step.label}>
               <StepLabel
-                StepIconComponent={ColorlibStepIcon}
                 onClick={() => handleStepClick(index)}
                 className={classes.stepLabel}
               >

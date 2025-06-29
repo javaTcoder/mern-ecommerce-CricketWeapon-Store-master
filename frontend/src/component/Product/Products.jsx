@@ -2,13 +2,11 @@ import React, { useEffect } from "react";
 import "./Products.css";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../layouts/loader/Loader";
-//import { useAlert } from "react-alert";
 import { toast } from "react-toastify";
 import { useRouteMatch } from "react-router-dom";
 import MetaData from "../layouts/MataData/MataData";
 import { clearErrors, getProduct } from "../../actions/productAction";
 import ProductCard from "../Home/ProductCard";
-//import Pagination from "react-js-pagination";
 import ReactPaginate from 'react-paginate';
 import Slider from "@mui/material/Slider";
 import { Typography } from "@mui/material";
@@ -16,13 +14,9 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import InventoryIcon from "@mui/icons-material/Inventory";
-
-
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
-
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const categories = [
@@ -49,15 +43,14 @@ function Products() {
     productsCount,
     error,
     resultPerPage,
-    // filterdProductCount,
   } = useSelector((state) => state.products);
-  //const alert = useAlert();
 
   const [currentPage, setCurrentPage] = React.useState(0);
-  const [price, setPrice] = React.useState([0, 100000]); // initial limit from min=0 to max=100000
+  const [price, setPrice] = React.useState([0, 100000]);
   const [category, setCategory] = React.useState("");
   const [ratings, setRatings] = React.useState(0);
   const [selectedCategory, setSelectedCategory] = React.useState("");
+  const [selectedRating, setSelectedRating] = React.useState("all");
 
   useEffect(() => {
     if (error) {
@@ -65,49 +58,139 @@ function Products() {
       dispatch(clearErrors());
     }
     dispatch(getProduct(keyword, currentPage + 1, price, category, ratings));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, keyword, currentPage, price, ratings, category]);
+  }, [dispatch, keyword, currentPage, price, ratings, category, error]);
 
   const handlePageClick = (data) => {
-  setCurrentPage(data.selected);
-};
+    setCurrentPage(data.selected);
+  };
+
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice);
   };
-  const handleCategoryChange = (category) => {
-    setCategory(category);
-    setSelectedCategory(category);
-    // Perform any additional actions or filtering based on the selected category
+
+  const handleCategoryChange = (selectedCat) => {
+    setCategory(selectedCat);
+    setSelectedCategory(selectedCat);
   };
 
-
-
-const [selectedRating, setSelectedRating] = React.useState("all");
-
-const handleRatingChange = (event) => {
-  setRatings(event.target.value);
-  setSelectedRating(event.target.value);
-  // Trigger filtering with the selected rating value or perform any other action
-  
-};
-
- 
+  const handleRatingChange = (event) => {
+    setRatings(event.target.value);
+    setSelectedRating(event.target.value);
+  };
 
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <MetaData title="PRODUCTS --Ecart" />
-          {products === undefined || products.length === 0 ? (
-            <>
-              <div
-                className="emptyCartContainer "
-                style={{ marginTop: "5rem", background: "white" }}
-              >
-                <InventoryIcon className="cartIcon" />
+      <MetaData title="PRODUCTS --Ecart" />
+      <div className="productPage">
+        <div className="prodcutPageTop">
+          {/* Filter Box remains here, fixed position */}
+          <div className="filterBox">
+            {/* Price Filter */}
+            <div className="priceFilter">
+              <Typography style={{ fontSize: "18px", padding: "5px", fontWeight: 700, color: "#414141" }}>
+                Price
+              </Typography>
+              <div className="priceSlider">
+                <Slider
+                  value={price}
+                  onChange={priceHandler}
+                  min={0}
+                  max={100000}
+                  step={100}
+                  valueLabelDisplay="auto"
+                  aria-labelledby="range-slider"
+                />
+              </div>
+              <div className="priceSelectors">
+                <div className="priceSelector">
+                  <Select
+                    value={price[0]}
+                    onChange={(e) => setPrice([+e.target.value, price[1]])}
+                    className="priceOption"
+                    IconComponent={ArrowDropDownIcon}
+                    renderValue={(selected) => (selected !== "" ? selected : "min")}
+                  >
+                    <MenuItem value={0} className="menu_item">0</MenuItem>
+                    <MenuItem value={5000} className="menu_item">5000</MenuItem>
+                    <MenuItem value={10000} className="menu_item">10000</MenuItem>
+                  </Select>
+                  <span className="toText">to</span>
+                  <Select
+                    value={price[1]}
+                    onChange={(e) => setPrice([price[0], +e.target.value])}
+                    className="priceOption"
+                    IconComponent={ArrowDropDownIcon}
+                    renderValue={(selected) => (selected !== "" ? selected : "max")}
+                  >
+                    <MenuItem value={20000} className="menu_item">20000</MenuItem>
+                    <MenuItem value={50000} className="menu_item">50000</MenuItem>
+                    <MenuItem value={100000} className="menu_item">100000</MenuItem>
+                  </Select>
+                </div>
+              </div>
+            </div>
 
+            <div className="filter_divider"></div>
+
+            {/* Categories Filter */}
+            <div className="categoriesFilter">
+              <Typography style={{ fontSize: "18px", padding: "10px", fontWeight: 700, color: "#414141" }}>
+                Categories
+              </Typography>
+              <ul className="categoryBox">
+                {categories.map((cat, index) => (
+                  <li className="category-link" key={index}>
+                    <label htmlFor={`category-${index}`} className="category-label">
+                      <input
+                        type="checkbox"
+                        id={`category-${index}`}
+                        className="category-checkbox"
+                        value={cat}
+                        checked={cat === selectedCategory}
+                        onChange={() => handleCategoryChange(cat)}
+                      />
+                      {cat}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="filter_divider"></div>
+            
+            {/* Ratings Filter */}
+            <div className="ratingsFilter">
+              <Typography style={{ fontSize: "18px", padding: "10px", fontWeight: 700, color: "#414141" }}>
+                Ratings Above
+              </Typography>
+              <RadioGroup
+                value={selectedRating}
+                onChange={handleRatingChange}
+                row
+                className="ratingsBox"
+              >
+                <FormControlLabel value="4" control={<Radio />} label="4★ & above" />
+                <FormControlLabel value="3" control={<Radio />} label="3★ & above" />
+                <FormControlLabel value="2" control={<Radio />} label="2★ & above" />
+                <FormControlLabel value="0" control={<Radio />} label="All" />
+              </RadioGroup>
+            </div>
+            <div className="filter_divider"></div>
+          </div>
+
+          {/* New wrapper for product content */}
+          <div className="productContentWrapper"> 
+            {loading ? (
+              <Loader />
+            ) : products && products.length > 0 ? (
+              <div className={products.length < 2 ? "products1" : "products"}>
+                {products.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <div className="emptyProductsContainer">
+                <InventoryIcon className="cartIcon" />
                 <Typography variant="h5" component="h1" className="cartHeading">
                   Product Not Found
                 </Typography>
@@ -117,7 +200,6 @@ const handleRatingChange = (event) => {
                 <Typography variant="body" className="cartText">
                   There is no product with this name
                 </Typography>
-
                 <Button
                   className="shopNowButton"
                   onClick={() => window.location.reload()}
@@ -126,186 +208,27 @@ const handleRatingChange = (event) => {
                   Refresh
                 </Button>
               </div>
-            </>
-          ) : (
-            <div className="productPage">
-              <div className="prodcutPageTop">
-                <div className="filterBox">
-                  {/* Price */}
-                  <div className="priceFilter">
-                    <Typography
-                      style={{
-                        fontSize: "18px",
-                        padding: "5px",
-                        fontWeight: 700,
-                        color: "#414141",
-                      }}
-                    >
-                      Price
-                    </Typography>
-                    <div className="priceSlider">
-                      <Slider
-                        value={price}
-                        onChange={priceHandler}
-                        min={0}
-                        max={100000}
-                        step={100}
-                        valueLabelDisplay="auto"
-                        aria-labelledby="range-slider"
-                      />
-                    </div>
-                    <div className="priceSelectors">
-                      <div className="priceSelector">
-                        <Select
-                          value={price[0]}
-                          onChange={(e) =>
-                            setPrice([+e.target.value, price[1]])
-                          }
-                          className="priceOption"
-                          IconComponent={ArrowDropDownIcon}
-                          renderValue={(selected) =>
-                            selected !== "" ? selected : "min"
-                          } // Display "min" as default label
-                        >
-                          <MenuItem value={5000} className="menu_item">
-                            5000
-                          </MenuItem>
-                          <MenuItem value={10000} className="menu_item">
-                            10000
-                          </MenuItem>
-                          {/* Add more options as per your requirement */}
-                        </Select>
-                        <span className="toText">to</span>
-                        <Select
-                          value={price[1]}
-                          onChange={(e) =>
-                            setPrice([price[0], +e.target.value])
-                          }
-                          className="priceOption"
-                          IconComponent={ArrowDropDownIcon}
-                          renderValue={(selected) =>
-                            selected !== "" ? selected : "max"
-                          }
-                        >
-                          <MenuItem value={50000} className="menu_item">
-                            50000
-                          </MenuItem>
-                          <MenuItem value={20000} className="menu_item">
-                            20000
-                          </MenuItem>
-                          {/* Add more options as per your requirement */}
-                        </Select>
-                      </div>
-                    </div>
-                  </div>
+            )}
+          </div>
+        </div>
 
-                  <div className="filter_divider"></div>
-
-                  {/* Categories */}
-                  <div className="categoriesFilter">
-                    <Typography
-                      style={{
-                        fontSize: "18px",
-                        padding: "10px",
-                        fontWeight: 700,
-                        color: "#414141",
-                      }}
-                    >
-                      Categories
-                    </Typography>
-                    <ul className="categoryBox">
-                      {categories.map((category, index) => (
-                        <li className="category-link" key={index}>
-                          <label
-                            htmlFor={`category-${index}`}
-                            className="category-label"
-                          >
-                            <input
-                              type="checkbox"
-                              id={`category-${index}`}
-                              className="category-checkbox"
-                              value={category}
-                              checked={category === selectedCategory}
-                              onChange={() => handleCategoryChange(category)}
-                            />
-                            {category}
-                          </label>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="filter_divider"></div>
-                  {/* Ratings */}
-                  <div className="ratingsFilter">
-                    <Typography
-                      style={{
-                        fontSize: "18px",
-                        padding: "10px",
-                        fontWeight: 700,
-                        color: "#414141",
-                      }}
-                    >
-                      Ratings Above
-                    </Typography>
-                    <RadioGroup
-                      value={selectedRating}
-                      onChange={handleRatingChange}
-                      row
-                      className="ratingsBox"
-                    >
-                      <FormControlLabel
-                        value="4"
-                        control={<Radio />}
-                        label="4★ & above"
-                      />
-                      <FormControlLabel
-                        value="3"
-                        control={<Radio />}
-                        label="3★ & above"
-                      />
-                      <FormControlLabel
-                        value="2"
-                        control={<Radio />}
-                        label="2★ & above"
-                      />
-                    </RadioGroup>
-                  </div>
-                  <div className="filter_divider"></div>
-                  {/* Clear Filters */}
-                </div>
-
-                <div
-                  className={products.length < 2 ? "products1" : "products"}
-                >
-                  {products &&
-                    products.map((product) => (
-                      <ProductCard key={product._id} product={product} />
-                    ))}
-                </div>
-              </div>
-
-              {/* Pagination */}
-       
-                <div className="paginationBox">
-                  <ReactPaginate
-                    previousLabel={"Prev"}
-                    nextLabel={"Next"}
-                    breakLabel={"..."}
-                    pageCount={Math.ceil(productsCount / resultPerPage)}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination"}
-                    activeClassName={"active"}
-                    forcePage={currentPage}
-                  />
-                </div>
-             
-            </div>
-          )}
-        </>
-      )}
+        {products && products.length > 0 && (
+          <div className="paginationBox">
+            <ReactPaginate
+              previousLabel={"Prev"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              pageCount={Math.ceil(productsCount / resultPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              activeClassName={"active"}
+              forcePage={currentPage}
+            />
+          </div>
+        )}
+      </div>
     </>
   );
 }

@@ -1,7 +1,7 @@
 
 .prodcutDetialsContainer
 {
-  overflow: hidden !important;
+  /* overflow: hidden !important; */
   width: 100%;
 }
 .product_container {
@@ -9,7 +9,7 @@
  width: 98vw;
     height: fit-content;
  margin-right: auto; 
-    overflow: hidden !important;
+    /* overflow: hidden !important; */
     font-family: "Roboto";
       background: #f5f5f5;
     

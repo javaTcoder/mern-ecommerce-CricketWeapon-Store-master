@@ -174,7 +174,7 @@ const ProfilePage = () => {
               </Typography>
 
               <p className="profileText3">
-                To access the Cricket Weapon Store website again, you need to
+                To access the Product Trust Store website again, you need to
                 provide your credentials. This action will log you out from any
                 other web browsers you have used before.
               </p>

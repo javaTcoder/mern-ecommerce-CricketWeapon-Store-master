@@ -235,13 +235,13 @@ const Cart = () => {
                   Checkout
                 </Button>
 
-                <div className="paymentLogoImg">
+                {/* <div className="paymentLogoImg">
                   <img
                     src={require("../../Image/cart/cart_img.png")}
                     alt="payemnt-icons"
                     className="paymentImg"
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           </>

@@ -5,6 +5,8 @@ import Button from "@mui/material/Button";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Link } from "react-router-dom";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme) => ({
   slide: {
@@ -84,6 +86,18 @@ const useStyles = makeStyles((theme) => ({
 
 const slides = [
   {
+    image: require("../../Image/Cricket-wepon/06.jpg"),
+    quote: "Gear up with the Latest Innovations and Dominate the Field like Never Before",
+    saleText: "Discover New Arrivals and stay ahead of the competition",
+    productText: "Explore",
+  },
+  {
+    image: require("../../Image/Cricket-wepon/01.jpg"),
+    quote: "Gear up with the Latest Innovations and Dominate the Field like Never Before",
+    saleText: "Discover New Arrivals and stay ahead of the competition",
+    productText: "Explore",
+  },
+  {
     image: require("../../Image/Cricket-wepon/img2.png"),
     quote: "Unleash Your Passion for Cricket and Embrace the Thrill of the Game",
     saleText: "Get in the game with up to 50% off on a wide range of cricket gear's",
@@ -96,7 +110,7 @@ const slides = [
     productText: "Buy Now",
   },
   {
-    image: require("../../Image/Cricket-wepon/01.jpg"),
+    image: require("../../Image/Cricket-wepon/05.jpg"),
     quote: "Gear up with the Latest Innovations and Dominate the Field like Never Before",
     saleText: "Discover New Arrivals and stay ahead of the competition",
     productText: "Explore",
@@ -112,6 +126,8 @@ const slides = [
 export default function HeroSlider() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleNext = () => {
     setActiveStep((prev) => (prev + 1) % slides.length);
@@ -120,6 +136,13 @@ export default function HeroSlider() {
   const handleBack = () => {
     setActiveStep((prev) => (prev - 1 + slides.length) % slides.length);
   };
+  // Only include the special banner on mobile
+  const filteredSlides = isMobile
+    ? slides
+    : slides.filter(
+        (slide) =>
+          slide.image !== require("../../Image/Cricket-wepon/06.jpg")
+      );
 
   return (
     <Carousel
@@ -158,7 +181,7 @@ export default function HeroSlider() {
       index={activeStep}
       onChangeIndex={setActiveStep}
     >
-      {slides.map((slide, index) => (
+      {filteredSlides.map((slide, index) => (
         <div key={index} className={classes.slide}>
           <img src={slide.image} alt="slider" className={classes.slideImage} />
           <div className={classes.slideContent}>

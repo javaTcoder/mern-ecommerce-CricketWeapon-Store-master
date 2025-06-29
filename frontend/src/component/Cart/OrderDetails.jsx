@@ -7,20 +7,26 @@ const useStyles = makeStyles((theme) => ({
   rootPayment: {
     width: "100%",
     display: "flex",
-    gap: "2.5rem",
+    gap: "1rem",
     padding: "1rem 0rem 0rem 0rem",
+    [theme.breakpoints.down("sm")]: {
+    flexDirection: "column", // Stack vertically on mobile
+    gap: "0.5rem",
+    alignItems: "center",
+  },
     
       
 
 
   },
   image: {
-    width: "155px",
-    height: "140px",
+    width: "120px",
+    height: "120px",
     objectFit: "cover",
-    [theme.breakpoints.down(899)]: {
-      width: "255px",
-      height: "240px",
+    [theme.breakpoints.down("sm")]: {
+      width: "80vw", // Responsive width
+      height: "auto",
+      maxWidth: "200px",
     },
   },
   details: {

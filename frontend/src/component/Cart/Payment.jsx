@@ -49,34 +49,37 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem 0",
     width: "100%",
     backgroundColor: "white",
-    overFlow : "hidden",
+    // overFlow : "hidden",
   },
 
   paymentPage__container: {
-    display: "flex",
-    width: "100%",
-    boxSize: "border-box",
-    justifyContent: "space-around",
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column-reverse",
-      alignItems: "center",
-    },
+  display: "flex",
+  width: "100%",
+  maxWidth: "100vw", // Prevent overflow
+  boxSizing: "border-box",
+  justifyContent: "space-between",
+  alignItems: "flex-start",
+  gap: "2rem",
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+    alignItems: "stretch",
+    gap: "1rem",
+    padding: "0 0.5rem",
+    width: "100vw",      // Ensure full viewport width
+    maxWidth: "100vw",   // Prevent horizontal scroll
+    boxSizing: "border-box",
   },
+},
 
   PaymentBox: {
-    padding: "1rem",
-    display: "flex",
-    flexDirection: "column",
-    paddingLeftLeft: "0.5rem",
-    overFlow: "hidden",
-    backgroundColor: "white",
-    width: "50%",
-    [theme.breakpoints.down("sm")]: {
-      width: "90%",
-      marginTop: "1rem",
-      padding: "2rem",
-    },
+  width: "55%",
+  minWidth: 0,
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+    minWidth: 0,
+    padding: "0",
   },
+},
   PaymentHeading: {
     fontWeight: "800",
     marginBottom: "1rem",
@@ -124,11 +127,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   cardDetails: {
-    width: "100%%",
+    width: "100%",
     "& .MuiGrid-item": {
-      marginBottom: "0.5rem",
+      marginBottom: "1rem", // 👈 add bottom spacing
     },
   },
+
   labelText: {
     fontWeight: "300",
   },
@@ -208,15 +212,23 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paymentInput: {
-    width: "95%",
-    padding: "18.5px 14px",
+    width: "100%",
+    padding: "16px 14px",
+    paddingRight: "50px", // 👈 padding for icon
     border: "1px solid #000",
+    borderRadius: "6px",
+    boxSizing: "border-box",
   },
+
   paymentInput2: {
-    width: "90%",
-    padding: "18.5px 14px",
+    width: "100%",
+    padding: "16px 14px",
+    paddingRight: "50px", // 👈 enough room for icon
     border: "1px solid #000",
+    borderRadius: "6px",
+    boxSizing: "border-box",
   },
+
   cardNumberInput: {
     position: "relative",
     "& .MuiOutlinedInput-root": {
@@ -254,31 +266,31 @@ const useStyles = makeStyles((theme) => ({
   inputIcon: {
     position: "absolute",
     top: "50%",
-    right: "1rem",
+    right: "12px",
     transform: "translateY(-50%)",
+    pointerEvents: "none",
+    zIndex: 2,
     color: "#00000080",
-    cursor: "pointer",
   },
 
+
+
   payemntAmount: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-end",
-    height: "fit-content",
-    padding: "1rem 0.5rem 0 0.5rem",
-    width: "40%",
-    [theme.breakpoints.down("sm")]: {
-      width: "90%",
-      padding: "2rem",
-    },
+  width: "45%",
+  minWidth: 0,
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+    minWidth: 0,
+    padding: "0",
   },
+},
   order_Details: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
     padding: "2rem 0.5rem 2rem 0.5rem",
     [theme.breakpoints.down("sm")]: {
-      width: "90%",
+      width: "100%",
       padding: "2rem",
     },
   },
@@ -570,7 +582,7 @@ const PaymentComponent = () => {
                       />
                     </Grid>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <Typography
                       variant="subtitle2"
                       className={classes.labelText}
@@ -582,12 +594,12 @@ const PaymentComponent = () => {
                       <CardExpiryElement className={classes.paymentInput2} />
                     </div>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <Typography
                       variant="subtitle2"
                       className={classes.labelText}
                     >
-                      CVV/CVV
+                      CVV/CVC
                     </Typography>
                     <div className={classes.cvvInput}>
                       <LockIcon className={classes.inputIcon} />
@@ -648,7 +660,7 @@ const PaymentComponent = () => {
               >
                 By clicking "Place Order", you agree to our
                 <Link href="#" className={classes.privacyText}>
-                  Cricket Weapon Terms & Conditions
+                  Product Trust Terms & Conditions
                 </Link>
               </Typography>
               <Button
@@ -744,13 +756,13 @@ const PaymentComponent = () => {
                 </div>
               </div>
 
-              <div className="paymentLogoImg">
+              {/* <div className="paymentLogoImg">
                 <img
                   src={require("../../Image/cart/cart_img.png")}
                   alt="payemnt-icons"
                   className="paymentImg"
                 />
-              </div>
+              </div> */}
               <div className={classes.order_Details}>
                 <h5 className={classes.orderSub_heading}>ORDER DETAILS</h5>
                 {cartItems &&

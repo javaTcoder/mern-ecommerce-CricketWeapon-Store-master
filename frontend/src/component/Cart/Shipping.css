@@ -2,7 +2,7 @@
   background-color: white;
   padding: 2rem 0.5rem;
 
-overflow: hidden;
+/* overflow: hidden; */
 
 }
 
@@ -11,7 +11,7 @@ select {
     width: "-webkit-fill-available";
     font-size: 16px;
     padding: 1rem;
-overflow: hidden;
+    overflow: hidden;
 }
 
 @media screen and (max-width: 600px) {

@@ -93,7 +93,7 @@ const DialogBox = ({ open, handleClose, id }) => {
   return (
     <Dialog
       open={open}
-      handleClose={handleClose}
+      onClose={handleClose}
       fullWidth={true}
       maxWidth="md"
       classes={{ paper: classes.dialog }}

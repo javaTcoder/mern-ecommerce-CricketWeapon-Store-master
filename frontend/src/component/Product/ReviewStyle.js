@@ -74,8 +74,15 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: "-50px",
     display: "flex",
     flexDirection: "column",
-paddingRight:"1.5rem",
-
+    paddingRight:"1.5rem",
+    [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    marginTop: "0",         // Remove negative margin on mobile
+    paddingRight: "0.5rem", // Less padding on mobile
+    textAlign: "left",
+    gap: "0.5rem",          // Add gap between items
+  },
 },
 
 

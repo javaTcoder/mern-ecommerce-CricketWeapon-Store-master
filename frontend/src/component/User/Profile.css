@@ -13,39 +13,33 @@
   text-align: center;
   background-color: white;
   padding: 3rem 0 2.5rem;
- box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-
- 
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
-.headingProfile{
+.headingProfile {
   text-align: center;
   font-weight: 900 !important;
   font-size: 30px !important;
   text-transform: uppercase;
   color: #414141;
-
 }
 
 .profileConatiner {
   display: flex;
   justify-content: space-around;
-  width: 97%;
-  align-items: center;
-  
+  width: 97%; /* Desktop width */
+  align-items: flex-start; /* Align items to start for better top alignment */
+  gap: 2rem; /* Add some gap between left and right containers */
 }
 
-
-
 .leftCotainer {
-  max-width: 27vmax;
+  max-width: 27vmax; /* Desktop max-width */
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 18rem;
   padding: 0;
 }
-
 
 .greeting {
   font-size: 16px;
@@ -59,10 +53,8 @@
   margin-bottom: 1rem !important;
   color: #212121 !important;
   background-color: inherit !important;
-  text-transform: uppercase !important; 
+  text-transform: uppercase !important;
 }
-
-
 
 .profileHeading {
   font-size: 18px !important;
@@ -72,23 +64,20 @@
   text-transform: uppercase !important;
 }
 
-
 .profileSection {
   background-color: white;
-  width: 100%;
+  width: 100%; /* Default width for profile section */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
   padding: 1.5rem 2.5rem 3rem 0.5rem;
-;
   border-radius: 3px;
   margin-bottom: 1rem;
   text-align: center;
   padding-top: 1.5rem;
-   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 
 .profileAvatar {
   width: 90px !important;
@@ -96,15 +85,14 @@
   margin-bottom: 8px !important;
   font-size: 2rem !important;
   font-weight: 800 !important;
-  background-color: #414141!important;
+  background-color: #414141 !important;
 }
-
 
 .leftDetails {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 23vmax;
+  width: 23vmax; /* Desktop width */
 }
 
 .profileSubHeading {
@@ -116,15 +104,11 @@
   padding: 0;
 }
 
-
-
 .profileText {
   font-size: 1rem !important;
   color: #414141;
   text-transform: uppercase;
 }
-
-
 
 .profileText2 {
   font-size: 16px;
@@ -136,31 +120,30 @@
   font-size: 14px;
   color: black;
   font-weight: 400;
-  width: 80%;
+  width: 80%; /* Default width */
   margin-top: -14px;
 }
 
 .myOrder {
-  width: 28vmax ;
+  width: 28vmax; /* Desktop width */
   background-color: white !important;
   text-align: center;
   padding: 1rem;
- box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1) !important;
   border-radius: 3px !important;
 }
 
-
 .ordersButton {
-  width: 100% ;
+  width: 100%; /* Default width */
   padding: 0.5rem !important;
   margin-bottom: 8px !important;
   background-color: #414141 !important;
   color: #fff !important;
 }
 .profileButton {
-  width: 50%  !important;
+  width: 50% !important; /* Default width */
   padding: 0.5rem !important;
-  margin:  1rem !important;
+  margin: 1rem !important;
   background-color: #414141 !important;
   color: #fff !important;
 }
@@ -168,21 +151,18 @@
   background-color: #ed1c24 !important;
 }
 
-
 .profileButton:hover {
   background-color: #ed1c24 !important;
 }
 
-
-
 .rightConatiner {
-  width: 58vmax;
+  width: 58vmax; /* Desktop width */
   background-color: white;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-top: 3rem;
-   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .righHeadings {
@@ -204,176 +184,170 @@
   gap: 2px;
 }
 
-
+/* Media Queries for Mobile Responsiveness */
 @media (max-width: 950px) {
   .profileConatiner {
-    flex-direction: column;
-    max-width: 100%;
+    flex-direction: column; /* Stack items vertically */
+    width: 95%; /* Adjust width for smaller screens */
+    align-items: center; /* Center content horizontally */
   }
 
-   .leftCotainer {
-    width: 100%;
+  .leftCotainer {
+    width: 100%; /* Full width */
+    max-width: 400px; /* Max width to keep it readable on larger tablets */
     margin-top: 2rem;
-    margin-bottom: 0;
+    margin-bottom: 1rem; /* Reduced margin for mobile */
   }
 
-   .profileHeadingLeft {
-    width: 88vmax;
+  .profileHeadingLeft {
+    width: 100%; /* Full width */
     text-align: center;
-  }
-
-   .profileHeading {
-    width: 100%;
+    font-size: 1.4rem !important; /* Adjusted font size for mobile */
   }
 
   .profileSection {
-    width: 88vmax;
+    width: 100%; /* Full width within leftContainer */
+    padding: 1.5rem; /* Adjust padding for mobile */
   }
 
-   .profileAvatar {
-    width: 110px;
-    height: 110px;
-    font-size: 3rem;
+  .profileAvatar {
+    width: 100px !important;
+    height: 100px !important;
+    font-size: 2.5rem !important;
   }
-.profileText2{
-    width: 70%;
-}
-  
-.leftDetails {
-  gap: 20px;
-  width: 100%;
-}
 
-.profileSubHeading {
-  font-size: 1.8rem;
-}
+  .leftDetails {
+    width: 100%; /* Full width */
+    align-items: center; /* Center text within details */
+    gap: 10px; /* Reduced gap */
+  }
 
+  .profileSubHeading {
+    font-size: 1.1rem !important; /* Adjusted font size for mobile */
+  }
 
-.profileText  {
-  font-size: 1.5rem;
-}
+  .profileText {
+    font-size: 0.9rem !important; /* Adjusted font size for mobile */
+  }
 
+  .profileText2 {
+    width: 90%; /* Adjust width */
+    font-size: 0.9rem; /* Adjusted font size for mobile */
+    text-align: center;
+  }
 
-.myOrder  {
-  width: 88vmax;
-  padding: 1.5rem;
-}
+  .myOrder {
+    width: 100%; /* Full width */
+    max-width: 400px; /* Max width for readability */
+    padding: 1rem;
+    margin-top: 1rem; /* Add margin to separate from the section above */
+  }
 
-.ordersButton  {
-  width: 70%;
-  padding: 1rem;
-}
+  .ordersButton {
+    width: 80%; /* Adjust button width */
+    padding: 0.75rem; /* Adjust padding */
+  }
 
+  .rightConatiner {
+    width: 100%; /* Full width */
+    max-width: 600px; /* Max width for readability on tablets */
+    padding: 1.5rem; /* Adjust padding */
+    margin-top: 1rem; /* Adjust margin */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-.rightConatiner  {
-  width: 88vmax;
-  padding: 3rem;
-  margin-top: 1rem;
-}
-@media (max-width : 870px) {
-    .rightConatiner{
- width: 112vmax;
-    padding-left: 10rem;
-    }
- 
+  .righHeadings {
+    padding: 1rem; /* Adjust padding */
+  }
 
+  .detials {
+    padding: 0.5rem 1rem; /* Adjust padding */
+    align-items: center; /* Center text */
+  }
 
-    .profileText3{
-        width: 60%;
-    }
-    .ordersButton{
-          width: 60%;
-    }
-    .profileButton{
-         width: 40% !important;
-    }
-}
-@media (max-width : 670px) {
-    .rightConatiner{
-     width: 112vmax;
-     padding-left: 15rem;
-    }
+  .mangeAccount {
+    padding: 0rem 1rem; /* Adjust padding */
+    align-items: center; /* Center text */
+  }
 
-    .profileText3{
-        width: 70%;
-    }
-    .ordersButton{
-          width: 50%;
-    }
-    .profileButton{
-         width: 35% !important;
-    }
-}
-@media (max-width : 599px) {
-    .rightConatiner{
-         width: 112vmax;
-            padding-left: 16rem;
-    }
+  .profileText3 {
+    width: 90%; /* Adjust width */
+    text-align: center;
+    margin-top: 0; /* Remove negative margin */
+  }
 
-    .ordersButton{
-          width: 40%;
-    }
-    .profileButton{
-         width: 30% !important;
-    }
-}
-@media (max-width : 499px) {
-    .rightConatiner{
-        width: 112vmax;
-           padding-left: 18rem;
-       
-    }
-
-     .profileText2{
-         width: 55% !important;
-    }
-     .profileText3{
-        width: 55% !important;
-    }
-    .ordersButton{
-          width: 40%;
-    }
-    .profileButton{
-         width: 30% !important;
-    }
-}
-@media (max-width : 375px) {
-    .rightConatiner{
-        width: 112vmax;
-        padding-left: 26rem;
-    }
-
-     .profileText3{
-        width: 30%;
-    }
-     .profileText2{
-        width: 50% !important;
-    }
-    .ordersButton{
-          width: 40%;
-    }
-    .profileButton{
-         width: 30% !important;
-    }
-}
-@media (max-width : 350px) {
-    .rightConatiner{
-        width: 112vmax;
-        padding-left: 28rem;
-    }
-
-     .profileText3{
-        width: 50% !important;
-    }
-     .profileText2{
-        width: 50% !important;
-    }
-    .ordersButton{
-          width: 40%;
-    }
-    .profileButton{
-         width: 30% !important;
-    }
+  .profileButton {
+    width: 60% !important; /* Adjust button width */
+    margin: 1rem auto !important; /* Center button */
+    padding: 0.75rem !important;
+  }
 }
 
+/* Further refinements for smaller mobile screens (e.g., <= 600px) */
+@media (max-width: 600px) {
+  .header-root {
+    padding: 2rem 0 1.5rem; /* Reduce header padding */
+  }
+
+  .headingProfile {
+    font-size: 24px !important; /* Smaller heading */
+  }
+
+  .leftCotainer,
+  .myOrder,
+  .rightConatiner {
+    max-width: 95%; /* Allow it to take more width on very small screens */
+  }
+
+  .profileHeadingLeft {
+    font-size: 1.2rem !important; /* Further reduce font size */
+  }
+
+  .profileHeading {
+    font-size: 16px !important; /* Further reduce font size */
+  }
+
+  .profileSubHeading {
+    font-size: 1rem !important; /* Further reduce font size */
+  }
+
+  .profileText {
+    font-size: 0.85rem !important; /* Further reduce font size */
+  }
+
+  .profileText2,
+  .profileText3 {
+    font-size: 0.8rem; /* Further reduce font size */
+  }
+
+  .ordersButton,
+  .profileButton {
+    width: 90% !important; /* Make buttons wider on small screens */
+    padding: 0.6rem !important; /* Reduce button padding */
+  }
+
+  .righHeadings,
+  .detials,
+  .mangeAccount {
+    padding: 0.75rem; /* Reduce padding */
+  }
+}
+
+@media (max-width: 400px) {
+  .leftCotainer,
+  .myOrder,
+  .rightConatiner {
+    max-width: 98%; /* Even wider for very small screens */
+  }
+
+  .profileAvatar {
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 2rem !important;
+  }
+
+  .ordersButton,
+  .profileButton {
+    width: 95% !important; /* Almost full width */
+  }
 }
