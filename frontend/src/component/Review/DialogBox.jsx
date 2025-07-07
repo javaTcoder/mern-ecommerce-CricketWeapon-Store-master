@@ -19,31 +19,29 @@ import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import Rating from "@mui/material/Rating";
 
-import { NEW_REVIEW_RESET } from "../../constants/productsConstatns";
+import { NEW_REVIEW_RESET } from "../../constants/reviewConstants";
 import { useSelector, useDispatch } from "react-redux";
 
-import { useParams } from "react-router-dom";
+//import { useParams } from "react-router-dom";
 //import { useAlert } from "react-alert";
 import { toast } from "react-toastify";
-import { clearErrors, newReview } from "../../actions/productAction";
+import { clearErrors, newReview,editReview } from "../../actions/reviewActions";
 
 
 
-const DialogBox = ({ open, handleClose, id }) => {
+const DialogBox = ({ open, handleClose, id ,onReviewSubmitted, editingReview}) => {
 
   const classes = useStyles();
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
   const [ratings, setRatings] = useState(0);
   const [recommend, setRecommend] = useState(false);
-
-  const { success, error } = useSelector((state) => {
-    return state.addNewReview;
-  });
+  const { success: addSuccess, error: addError } = useSelector((state) => state.addNewReview);
+  const { isEdited, error: editError } = useSelector((state) => state.editReview || {});
+  
 
   const dispatch = useDispatch();
-  const params = useParams();
-  const productId = params.id;
+  //const params = useParams();
   //const alert = useAlert();
 
 
@@ -55,40 +53,69 @@ const DialogBox = ({ open, handleClose, id }) => {
     setComment(event.target.value);
   };
 
-  const handleRatingChange = (event) => {
-    setRatings(event.target.value);
+  const handleRatingChange = (event,newValue) => {
+    setRatings(Number(newValue));
   };
 
-  const handleRecommendChange = (event) => {
-    setRecommend(event.target.value);
-  };
+  //  const handleRecommendChange = (event) => {
+  //    setRecommend(event.target.value);
+  //  };
 
+  // On submit, call editReview if editingReview exists, else newReview
   const handleSubmit = () => {
-    const myForm = new FormData();
-    myForm.set("title", title);
-    myForm.set("comment", comment);
-    myForm.set("ratings", ratings);
-    myForm.set("recommend", recommend);
-    if(id){
-          myForm.set("productId", id);
-    }else{
-          myForm.set("productId", productId);
+    const reviewData = {
+      title,
+      comment,
+      ratings,
+      recommend,
+      productId: id,
+      reviewId: editingReview ? editingReview._id : undefined,
+    };
+    if (editingReview) {
+      dispatch(editReview(editingReview._id, id, reviewData));
+    } else {
+      dispatch(newReview(reviewData));
     }
-    dispatch(newReview(myForm));
-      toast.success("Review posted successfully");
     handleClose();
+    if (onReviewSubmitted) onReviewSubmitted();
   };
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearErrors());
+  if (addError) {
+    toast.error(addError);
+    dispatch(clearErrors());
+  }
+  if (editError) {
+    toast.error(editError);
+    dispatch(clearErrors());
+  }
+  if (addSuccess) {
+    toast.success("Review posted successfully");
+    dispatch({ type: NEW_REVIEW_RESET });
+    handleClose();
+    if (onReviewSubmitted) onReviewSubmitted();
+  }
+  if (isEdited) {
+    toast.success("Successfully updated your review");
+    dispatch({ type: "EDIT_REVIEW_RESET" });
+    handleClose();
+    if (onReviewSubmitted) onReviewSubmitted();
+  }
+}, [dispatch, addError, editError, addSuccess, isEdited, handleClose, onReviewSubmitted]);
+
+    useEffect(() => {
+    if (editingReview) {
+      setTitle(editingReview.title || "");
+      setComment(editingReview.comment || "");
+      setRatings(editingReview.ratings || 0);
+      setRecommend(!!editingReview.recommend);
+    } else {
+      setTitle("");
+      setComment("");
+      setRatings(0);
+      setRecommend(false);
     }
-    if (success) {
-      toast.success("Review posted successfully");
-      dispatch({ type: NEW_REVIEW_RESET });
-    }
-  }, [dispatch, error, success]);
+  }, [editingReview, open]);
 
   return (
     <Dialog
@@ -118,7 +145,7 @@ const DialogBox = ({ open, handleClose, id }) => {
         </Typography>
         <Box mt={2}>
           <Typography variant="body1" className={classes.bodyText}>
-            Title
+            Title1
           </Typography>
           <TextField
             fullWidth
@@ -167,8 +194,8 @@ const DialogBox = ({ open, handleClose, id }) => {
             <RadioGroup
               aria-label="recommendation"
               name="recommendation"
-              value={recommend}
-              onChange={handleRecommendChange}
+              value={recommend ? "yes" : "no"}
+              onChange={e => setRecommend(e.target.value === "yes")}
             >
               <FormControlLabel
                 value="yes"
@@ -188,6 +215,7 @@ const DialogBox = ({ open, handleClose, id }) => {
           <Button
             variant="outlined"
             onClick={handleSubmit}
+           // handleClose={handleClose}
             className={classes.submitBtn}
           >
             Submit

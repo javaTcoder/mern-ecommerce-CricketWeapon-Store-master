@@ -6,14 +6,17 @@ const TermsAndConditionsPage = () => {
   return (
     <div className="terms-container">
       <MetaData title="Terms and Conditions" />
-      <img
-        src={TermsImage}
-        alt="Terms and Conditions"
-        className="terms-image"
-      />
-      <div className="terms-overlay">
-        <h1 className="terms-title">TERMS AND CONDITIONS</h1>
-      </div>
+        <div className="terms-image-container">
+          <img
+            src={TermsImage}
+            alt="Terms and Conditions"
+            className="terms-image"
+          />
+          <div className="terms-overlay">
+            <h1 className="terms-title">TERMS AND CONDITIONS</h1>
+          </div>
+
+        </div>
       <div className="terms-content">
         <p>
           Thank you for shopping with CricketWeapon! We appreciate your business

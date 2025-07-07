@@ -4,12 +4,16 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   productsReducer,
   productDetailsReducer,
-  newReviewReducer,
   newProductReducer,
   deleteUpdateReducer,
-   getALLReviewReducer,
-   deleteReviewReducer
 } from "./reducers/productReducers";
+
+import {
+  newReviewReducer,
+   getALLReviewReducer,
+   deleteReviewReducer,
+   editReviewReducer
+} from "./reducers/reviewReducers";
 import {
   profileReducer,
   userReducer,
@@ -30,6 +34,7 @@ import {
 } from "./reducers/orderReducer";
 
 const rootReducer = combineReducers({
+  editReview: editReviewReducer,
   products: productsReducer,
   productDetails: productDetailsReducer,
   userData: userReducer,

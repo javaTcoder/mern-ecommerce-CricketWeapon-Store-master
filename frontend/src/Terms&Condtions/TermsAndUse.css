@@ -1,0 +1,75 @@
+/* Add to Privacy.css or a new TermsAndUse.css */
+/* Responsive container for the page */
+
+
+.privacy-policy-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 0;
+}
+
+/* Main content wrapper */
+.container___ {
+  width: 95%;
+  margin: 0 auto;
+  padding: 16px 0 32px 0;
+}
+
+/* Responsive heading */
+.container___ h1 {
+  font-size: 1.5rem;
+  margin: 1.5rem 0 1rem 0;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #222;
+}
+
+/* Section headings */
+.container___ h2 {
+  font-size: 1.1rem;
+  margin: 1.5rem 0 0.5rem 0;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Paragraphs */
+.container___ p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+/* Contact info */
+.container___ p[style*="font-weight: 500"] {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .privacy-policy-container {
+    padding: 0;
+    width: 100%;
+    min-width: 0;
+  }
+  .container___ {
+    width: 98%;
+    padding: 8px 0 16px 0;
+  }
+  .container___ h1 {
+    font-size: 1.1rem;
+    margin: 1rem 0 0.5rem 0;
+  }
+  .container___ h2 {
+    font-size: 1rem;
+    margin: 1rem 0 0.5rem 0;
+  }
+  .container___ p {
+    font-size: 0.95rem;
+    margin-bottom: 0.7rem;
+  }
+}

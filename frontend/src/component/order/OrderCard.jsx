@@ -4,7 +4,7 @@ import {
   Typography,
   Button,
   Divider,
-  useMediaQuery,
+  // useMediaQuery,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import ReplayIcon from "@mui/icons-material/Replay";
@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addItemToCart } from "../../actions/cartAction";
 import {useHistory} from "react-router-dom";
-import DialogBox from "../Product/DialogBox";
+import DialogBox from "../Review/DialogBox";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -272,7 +272,7 @@ const OrderCard = ({item , user}) => {
     const [open, setOpen] = useState(false);
    
 const classes = useStyles();
-  const isSmallScreen = useMediaQuery("(max-width: 999px)");
+  // const isSmallScreen = useMediaQuery("(max-width: 999px)");
   const { shippingInfo, orderItems } = item;
    
   const addToCartHandler = (id , qty = 0) => {
@@ -321,7 +321,7 @@ const classes = useStyles();
             </div>
 
             {/* Right side */}
-            {!isSmallScreen && (
+            {/* {!isSmallScreen && ( */}
               <div className={classes.rightSide}>
                 <Typography
                   variant="subtitle1"
@@ -335,7 +335,7 @@ const classes = useStyles();
                   {product.price * product.quantity}
                 </Typography>
               </div>
-            )}
+            {/* )} */}
           </div>
 
           {/* Second block */}
@@ -418,7 +418,7 @@ const classes = useStyles();
             </div>
 
             {/* Right side */}
-            {!isSmallScreen && (
+            {/* {!isSmallScreen && ( */}
               <div className={classes.secondBlock_right}>
                 <div className={classes.addressBlock}>
                   <Typography variant="h6">{user.name}</Typography>
@@ -437,7 +437,7 @@ const classes = useStyles();
                   </Typography>
                 </div>
               </div>
-            )}
+            {/* )} */}
           </div>
         </Card>
       ))}

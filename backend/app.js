@@ -21,6 +21,7 @@ const order = require("./route/orderRoute");
 const product = require("./route/productRoute")
 const payment = require("./route/paymentRoute");
 const emailVerification = require("./route/emailVerificationRoute");
+const review = require("./route/reviewRoutes");
 
 // for req.cookie to get token while autentication
 app.use(cookieParser());
@@ -36,6 +37,7 @@ app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", payment);
+app.use("/api/v1", review);
 
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 

@@ -36,6 +36,7 @@ export const useStyles = makeStyles((theme) => ({
   },
 
   submitBtn: {
+    marginTop: theme.spacing(2),
     borderRadius: "8px",
     cursor: "pointer",
     fontSize: "16px",
@@ -133,6 +134,8 @@ sortBy: {
   //dialog box
 
   textField: {
+    marginBottom: theme.spacing(2),
+
     "& .MuiOutlinedInput-root": {
       fontSize: "16px",
       fontWeight: 400,
@@ -187,5 +190,44 @@ sortBy: {
       backgroundColor: "white",
       borderRadius: "10px",
     },
+  },
+  reviewForm: {
+    padding: theme.spacing(2),
+    background: "#fff",
+    borderRadius: "8px",
+    marginBottom: theme.spacing(2),
+    width: "100%",
+  },
+  
+  
+  cardRoot: {
+    border: "1px solid #eee",
+    borderRadius: "8px",
+    padding: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    background: "#fafafa",
+  },
+  listRoot: {
+    width: "100%",
+    marginTop: theme.spacing(2),
+  },
+  imageGallery: {
+    display: "flex",
+    gap: "8px",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  reviewImg: {
+    width: 80,
+    height: 80,
+    objectFit: "cover",
+    borderRadius: "6px",
+    border: "1px solid #ccc",
+  },
+  actionsRoot: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    marginTop: theme.spacing(1),
   },
 }));

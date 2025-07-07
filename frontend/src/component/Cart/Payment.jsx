@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../layouts/MataData/MataData";
-//import { useAlert } from "react-alert";
-import { toast } from "react-toastify";
+// import { useAlert } from "react-alert";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import OrderDetailsSection from "./OrderDetails";
 import DummyCard from "./DummyCard";
 import { clearErrors, createOrder } from "../../actions/orderAction";
 import CheckoutSteps from "./CheckoutSteps ";
+import { toast } from "react-toastify";
+
 
 // for cardDetails for card detials input section and hooks for accessing strip and element from App.js route
 import {
@@ -49,18 +50,18 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem 0",
     width: "100%",
     backgroundColor: "white",
-    // overFlow : "hidden",
+    //overFlow : "hidden",
   },
 
   paymentPage__container: {
-  display: "flex",
-  width: "100%",
-  maxWidth: "100vw", // Prevent overflow
-  boxSizing: "border-box",
-  justifyContent: "space-between",
+    display: "flex",
+    width: "100%",
+    maxWidth: "100vw", // Prevent overflow
+    boxSizing: "border-box",
+    justifyContent: "space-between",
   alignItems: "flex-start",
   gap: "2rem",
-  [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
     alignItems: "stretch",
     gap: "1rem",
@@ -69,9 +70,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100vw",   // Prevent horizontal scroll
     boxSizing: "border-box",
   },
-},
+  },
 
-  PaymentBox: {
+   PaymentBox: {
   width: "55%",
   minWidth: 0,
   [theme.breakpoints.down("sm")]: {
@@ -132,7 +133,6 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: "1rem", // 👈 add bottom spacing
     },
   },
-
   labelText: {
     fontWeight: "300",
   },
@@ -211,57 +211,49 @@ const useStyles = makeStyles((theme) => ({
       color: "red",
     },
   },
-  paymentInput: {
-    width: "100%",
-    padding: "16px 14px",
-    paddingRight: "50px", // 👈 padding for icon
-    border: "1px solid #000",
-    borderRadius: "6px",
-    boxSizing: "border-box",
-  },
-
-  paymentInput2: {
-    width: "100%",
-    padding: "16px 14px",
-    paddingRight: "50px", // 👈 enough room for icon
-    border: "1px solid #000",
-    borderRadius: "6px",
-    boxSizing: "border-box",
-  },
-
-  cardNumberInput: {
-    position: "relative",
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#000",
-        borderRadius: "none !important",
-      },
-      "&:hover fieldset": {
-        borderColor: "#000",
-        "&.Mui-focused fieldset": {
-          borderColor: "#000",
-        },
-      },
-    },
-  },
-  expiryInput: {
-    position: "relative",
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#000",
-        borderRadius: "none !important",
-      },
-      "&:hover fieldset": {
-        borderColor: "#000",
-        "&.Mui-focused fieldset": {
-          borderColor: "#000",
-        },
-      },
-    },
-  },
-  cvvInput: {
-    position: "relative",
-  },
+paymentInput: {
+  width: "100%",
+  minWidth: "320px",      // Make the card number box wider
+  padding: "18px 18px",
+  paddingRight: "50px",
+  border: "1.5px solid #000",
+  borderRadius: "8px",
+  boxSizing: "border-box",
+  fontSize: "1.3rem",     // Larger font
+  height: "56px",         // Taller input
+  background: "#fff",
+  marginBottom: "1rem",
+},
+paymentInput2: {
+  width: "100%",
+  minWidth: "140px",      // Wider for expiry and CVV
+  padding: "18px 18px",
+  paddingRight: "50px",
+  border: "1.5px solid #000",
+  borderRadius: "8px",
+  boxSizing: "border-box",
+  fontSize: "1.2rem",
+  height: "56px",
+  background: "#fff",
+  marginBottom: "1rem",
+},
+cardNumberInput: {
+  position: "relative",
+  width: "100%",
+  marginBottom: "1.5rem",
+  minWidth: "320px",
+  display: "flex",
+  alignItems: "center",
+},
+expiryInput: {
+  position: "relative",
+  minWidth: "140px",
+  marginRight: "1rem",
+},
+cvvInput: {
+  position: "relative",
+  minWidth: "140px",
+},
 
   inputIcon: {
     position: "absolute",
@@ -273,8 +265,6 @@ const useStyles = makeStyles((theme) => ({
     color: "#00000080",
   },
 
-
-
   payemntAmount: {
   width: "45%",
   minWidth: 0,
@@ -284,6 +274,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0",
   },
 },
+  
   order_Details: {
     display: "flex",
     flexDirection: "column",
@@ -348,7 +339,7 @@ const useStyles = makeStyles((theme) => ({
 const PaymentComponent = () => {
   const classes = useStyles();
   const history = useHistory();
-  //const alert = useAlert();
+  // const alert = useAlert();
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
@@ -363,7 +354,6 @@ const PaymentComponent = () => {
   const [isValid, setIsValid] = useState(true);
     const [showDummyCard, setShowDummyCard] = useState(false);
     const [selectedPayment, setSelectedPayment] = useState("card");
-
 
 
   const subTotal = cartItems.reduce((acc, currItem) => {
@@ -415,18 +405,17 @@ const PaymentComponent = () => {
 
   async function paymentSubmitHandler(e) {
     e.preventDefault();
-
     if (selectedPayment === "cod") {
     dispatch(createOrder({ ...order, paymentInfo: { id: "COD", status: "Pending" } }));
     toast.success("Order placed with Cash on Delivery!");
     history.push("/success");
     return;
     }
-    
     if(nameOnCard === ""){
       toast.error("Please enter name on card");
       return;
     }
+
     const confirm = window.confirm("Are you sure you want to place the order and pay with your card?");
     if (!confirm) 
       return;
@@ -469,7 +458,7 @@ const PaymentComponent = () => {
       if (result.error) {
         // if error then again enable the button on
 
-        toast.error(result.error.message);
+       toast.error(result.error.message);
       } else {
         if (result.paymentIntent.status === "succeeded") {
           // add new property inside order object
@@ -599,7 +588,7 @@ const PaymentComponent = () => {
                       variant="subtitle2"
                       className={classes.labelText}
                     >
-                      CVV/CVC
+                      CVV/CVV
                     </Typography>
                     <div className={classes.cvvInput}>
                       <LockIcon className={classes.inputIcon} />
@@ -626,6 +615,19 @@ const PaymentComponent = () => {
                 </Grid>
               </div>
 
+
+              <div className={classes.cardSelection}>
+                <Radio
+                  value="card"
+                  className={classes.radio}
+                  checked={selectedPayment === "card"}
+                  onChange={() => setSelectedPayment("card")}
+                />
+                <Typography variant="subtitle2" className={classes.radioText}>
+                  Credit Card
+                </Typography>
+                <CreditCardIcon fontSize="medium" />
+              </div>
               <div className={classes.cardSelection}>
                 <Radio
                   value="dummyCard"
@@ -639,6 +641,7 @@ const PaymentComponent = () => {
                 <CreditCardIcon fontSize="medium" />
                 {showDummyCard && <DummyCard onClose={handleCloseDummyCard} />}
               </div>
+
               <div className={classes.cardSelection}>
                 <Radio
                   value="cod"
@@ -650,10 +653,6 @@ const PaymentComponent = () => {
                   Cash on Delivery (COD)
                 </Typography>
               </div>
-
-
-
-
               <Typography
                 variant="body2"
                 className={classes.termsAndConditionsText}
