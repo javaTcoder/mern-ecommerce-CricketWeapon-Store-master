@@ -20,24 +20,24 @@ const footMenu = [
       {
         id: 2,
         link: "FAQs",
-        path: "/terms/conditions",
+        path: "/FAQs",
       },
 
-      {
-        id: 3,
-        link: "Cancel Order",
-        path: "/policy/return",
-      },
+      // {
+      //   id: 3,
+      //   link: "Cancel Order",
+      //   path: "/policy/return",
+      // },
       {
         id: 4,
         link: "Return Order",
         path: "/policy/return",
       },
-      {
-        id: 5,
-        link: "Warranty Info",
-        path: "/policy/Terms",
-      },
+      // {
+      //   id: 5,
+      //   link: "Warranty Info",
+      //   path: "/policy/Terms",
+      // },
     ],
   },
   {
@@ -49,16 +49,16 @@ const footMenu = [
         link: "Return Policy",
         path: "/policy/return",
       },
-      {
-        id: 2,
-        link: "Security",
-        path: "/policy/privacy",
-      },
-      {
-        id: 3,
-        link: "Sitemap",
-        path: "/policy/Terms",
-      },
+      // {
+      //   id: 2,
+      //   link: "Security",
+      //   path: "/policy/privacy",
+      // },
+      // {
+      //   id: 3,
+      //   link: "Sitemap",
+      //   path: "/policy/Terms",
+      // },
       {
         id: 4,
         link: "Privacy Policy",
@@ -90,16 +90,16 @@ const footMenu = [
         link: "Service Centres",
         path: "/",
       },
-      {
-        id: 4,
-        link: "Careers",
-        path: "/",
-      },
-      {
-        id: 5,
-        link: "Affiliates",
-        path: "/terms/conditions",
-      },
+      // {
+      //   id: 4,
+      //   link: "Careers",
+      //   path: "/",
+      // },
+      // {
+      //   id: 5,
+      //   link: "Affiliates",
+      //   path: "/terms/conditions",
+      // },
     ],
   },
 ];

@@ -1,4 +1,5 @@
 import React, { useState  } from "react";
+import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
@@ -152,12 +153,30 @@ const MyCard = ({ review , onEdit, onDelete, isOwnReview}) => {
   //   }
   // };
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleMenuClose = () => {
+  // const handleMenuOpen = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null);
+  // };
+
+    // Add this handler:
+  const handleFlagAbuse = async () => {
+    try {
+      await axios.post("/api/v1/report-abuse", {
+        reviewId: review._id,
+        productId: review.product,
+        reason: "Abusive or inappropriate",
+        comment: review.comment,
+      });
+      alert("Reported to admin!");
+    } catch (err) {
+      alert("Failed to report abuse.");
+    }
     setAnchorEl(null);
   };
+
+
 
   function formateDate(dateString){
     const date = new Date(dateString);
@@ -193,7 +212,7 @@ const MyCard = ({ review , onEdit, onDelete, isOwnReview}) => {
           <>
             <IconButton
               className={classes.moreButton}
-              onClick={handleMenuOpen}
+              onClick={e => setAnchorEl(e.currentTarget)}
               size="small"
             >
               <MoreVertIcon />
@@ -201,34 +220,21 @@ const MyCard = ({ review , onEdit, onDelete, isOwnReview}) => {
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
+              onClose={() => setAnchorEl(null)}
             >
               {isOwnReview ? (
                 <>
-                  <MenuItem
-                    onClick={() => {
-                      handleMenuClose();
-                      onEdit(review);
-                    }}
-                  >
-                    Edit
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      handleMenuClose();
-                      onDelete(review);
-                    }}
-                  >
-                    Delete
-                  </MenuItem>
+                  <MenuItem onClick={() => { setAnchorEl(null); onEdit(review); }}>Edit</MenuItem>
+                  <MenuItem onClick={() => { setAnchorEl(null); onDelete(review); }}>Delete</MenuItem>
                 </>
               ) : (
                 <MenuItem
-                  onClick={() => {
-                    handleMenuClose();
-                    // You can add your flag/report logic here
-                    alert("Flagged as abusive or inappropriate!");
-                  }}
+                  // onClick={() => {
+                  //   handleMenuClose();
+                  //   // You can add your flag/report logic here
+                  //   alert("Flagged as abusive or inappropriate!");
+                  // }}
+                  onClick={handleFlagAbuse}
                 >
                   Flag as abusive or inappropriate
                 </MenuItem>

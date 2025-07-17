@@ -35,7 +35,11 @@ import AboutUsPage from "./Terms&Condtions/Aboutus";
 import ReturnPolicyPage from "./Terms&Condtions/Return";
 import TermsUse from "./Terms&Condtions/TermsAndUse";
 import TermsAndConditions from "./Terms&Condtions/TermsCondtion";
+import FAQs from "./Terms&Condtions/FAQs";
 import PrivacyPolicy from "./Terms&Condtions/Privacy";
+import SupportRequests from "./component/Admin/SupportRequests";
+import AbusiveReports from "./component/Admin/AbusiveReports";
+
 // const LazyPayment = React.lazy(() => import("./component/Cart/Payment"));
 const LazyDashboard = React.lazy(() => import("./component/Admin/Dashboard"));
 const LazyProductList = React.lazy(() =>
@@ -411,6 +415,19 @@ function App() {
               </>
             )}
           />
+
+          <Route
+            exact
+            path="/FAQs"
+            render={() => (
+              <>
+                {<Header />}
+                <FAQs />
+
+                {<Footer />}
+              </>
+            )}
+          />
         </Switch>
 
         {/* Admin routes */}
@@ -469,6 +486,18 @@ function App() {
               exact
               path="/admin/user/:id"
               component={LazyUpdateUser}
+            />
+             <PrivateRoute
+              isAdmin={true}
+              exact
+              path="/admin/support-requests"
+              component={SupportRequests}
+            />
+            <PrivateRoute
+              isAdmin={true}
+              exact
+              path="/admin/abusive-reports"
+              component={AbusiveReports}
             />
           </Switch>
         </Suspense>

@@ -1,126 +1,80 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Privacy.css";
 import MetaData from "../component/layouts/MataData/MataData";
 
 const PrivacyPolicy = () => {
   return (
     <div className="privacy-policy-container">
-     <MetaData title={"Privacy Policy"} />
+      <MetaData title={"Privacy Policy"} />
       <div className="container___">
-        <h1>Privacy Policy of CricketWeapon</h1>
+        <h1>Privacy Policy</h1>
         <p style={{ fontSize: "16px", fontWeight: "600" }}>
-          {" "}
-          Effective Date: 23-12-2021
+          Effective Date: July 12, 2025
         </p>
         <p>
-          At CricketWeapon, we value the privacy of our customers and are
-          committed to protecting your personal information. This Privacy Policy
-          explains how we collect, use, disclose, and safeguard your information
-          when you use our website and services. Please read this Privacy Policy
-          carefully. By accessing or using our website and services, you
-          acknowledge that you have read, understood, and agree to be bound by
-          all the terms outlined in this Privacy Policy.
+          Website: <a href="https://product-trust.onrender.com/">https://product-trust.onrender.com/</a><br />
+          Owner: ProductTrust
         </p>
+
+        <p>
+          At ProductTrust, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and share information when you visit or make a purchase from our website.
+        </p>
+
         <h2>1. Information We Collect</h2>
-        <h3>1.1 Personal Information:</h3>
-        <p>
-          We may collect personal information that you voluntarily provide to us
-          when you register an account, place an order, subscribe to our
-          newsletter, participate in contests or surveys, or contact us for
-          support. This information may include your name, email address, phone
-          number, shipping address, billing address, and payment details.
-        </p>
-        <h3>1.2 Non-Personal Information:</h3>
-        <p>
-          When you interact with our website, we may collect non-personal
-          information about your device, browsing actions, and usage patterns.
-          This information may include your IP address, browser type, operating
-          system, referring URLs, and interactions with our website.
-        </p>
-        <h2>2. Use of Information</h2>
-        <h3>2.1 Personal Information:</h3>
-        <p>We may use the personal information we collect to:</p>
+        <p>When you use our website, we may collect the following information:</p>
         <ul>
-          <li>Process and fulfill your orders</li>
-          <li>Provide customer support and respond to inquiries</li>
-          <li>
-            Send you promotional offers, newsletters, and marketing
-            communications (you can opt-out at any time)
-          </li>
-          <li>Improve our website, products, and services</li>
-          <li>Personalize your experience on our website</li>
-          <li>
-            Prevent fraudulent activities and ensure the security of our
-            platform
-          </li>
+          <li><strong>Personal Information:</strong> Name, phone number, and email address (collected during the order and checkout process).</li>
+          <li><strong>Order Information:</strong> Product details, delivery address, and transaction data.</li>
+          <li><strong>Device Information:</strong> IP address, browser type, and usage data through necessary tools for advertising and website performance.</li>
         </ul>
-        <h3>2.2 Non-Personal Information:</h3>
-        <p>
-          We may use non-personal information for various purposes, including:
-        </p>
+
+        <h2>2. How We Use Your Information</h2>
         <ul>
-          <li>Analyzing trends and user behavior</li>
-          <li>Monitoring and improving the functionality of our website</li>
-          <li>Customizing content and advertisements</li>
-          <li>Generating aggregated statistical data</li>
+          <li>Process and deliver your orders</li>
+          <li>Communicate with you regarding your purchase</li>
+          <li>Provide customer support</li>
+          <li>Improve our website and services</li>
+          <li>Run promotions or ads using basic analytics and tools</li>
         </ul>
-        <h2>3. Disclosure of Information</h2>
-        <p>
-          We may disclose your information to third parties in the following
-          circumstances:
-        </p>
+        <p>We only use information that is required to operate our eCommerce business.</p>
+
+        <h2>3. Sharing Your Information</h2>
+        <p>We do not sell or rent your personal data. We may share your data with:</p>
         <ul>
-          <li>
-            To our trusted service providers who assist us in operating our
-            business and providing services to you
-          </li>
-          <li>
-            To comply with legal obligations, enforce our policies, or respond
-            to legal requests
-          </li>
-          <li>
-            In the event of a merger, acquisition, or sale of all or a portion
-            of our business assets
-          </li>
-          <li>With your consent or at your direction</li>
+          <li>Trusted third-party services (e.g., payment gateways, delivery partners)</li>
+          <li>Advertising or analytics tools, only as needed to help us grow our business</li>
+          <li>Authorities, if required by law</li>
         </ul>
-        <h2>4. Security</h2>
-        <p>
-          We take reasonable measures to protect your information from
-          unauthorized access, disclosure, alteration, or destruction. However,
-          please note that no method of transmission over the internet or
-          electronic storage is completely secure, and we cannot guarantee
-          absolute security.
-        </p>
-        <h2>5. Children's Privacy</h2>
-        <p>
-          Our website and services are not intended for children under the age
-          of 13. We do not knowingly collect personal information from children.
-          If we become aware that we have collected personal information from a
-          child without parental consent, we will take steps to remove that
-          information from our servers.
-        </p>
-        <h2>6. Changes to This Privacy Policy</h2>
-        <p>
-          We may update our Privacy Policy from time to time. Any changes will
-          be posted on this page, and the revised Privacy Policy will take
-          effect immediately upon posting. We encourage you to review this
-          Privacy Policy periodically for any updates or changes.
-        </p>
-        <h2>7. Contact Us</h2>
-        <p>
-          If you have any questions, concerns, or suggestions regarding this
-          Privacy Policy, please contact us at{" "}
-          <Link to="/" style={{ textDecoration : "none" , color : "inherit" , fontWeight : 700}}>
-            [insert contact information]
-          </Link>
-        </p>
-        <p>
-          By using the CricketWeapon website and services, you agree to the
-          collection, use, and disclosure of your information as described in
-          this Privacy Policy.
-        </p>
+
+        <h2>4. Payment Information</h2>
+        <p>We use third-party secure payment services to process payments. Your card or banking details are not stored on our servers.</p>
+
+        <h2>5. Cookies and Tracking Tools</h2>
+        <p>We use necessary cookies and tracking tools only to:</p>
+        <ul>
+          <li>Run ads (if applicable)</li>
+          <li>Understand visitor behavior to improve your experience</li>
+        </ul>
+        <p>You can control cookie settings from your browser at any time.</p>
+
+        <h2>6. Your Rights</h2>
+        <p>You have the right to:</p>
+        <ul>
+          <li>Access or update your personal data</li>
+          <li>Request removal of your data</li>
+          <li>Opt out of email communications (if we ever send)</li>
+        </ul>
+        <p>To make any request, just contact us using the details below.</p>
+
+        <h2>7. Children’s Privacy</h2>
+        <p>Our website is intended for everyone, but we do not knowingly collect data from anyone under the age of 13 without parental consent.</p>
+
+        <h2>8. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy occasionally. Changes will be posted on this page with a new effective date.</p>
+
+        <h2>9. Contact Us</h2>
+        <p>If you have any questions or requests, you can contact us through our <Link to="/contact">Contact Us</Link> page.</p>
       </div>
     </div>
   );

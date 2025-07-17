@@ -6,9 +6,9 @@ const TermsAndConditions = () => {
     <div className="privacy-policy-container">
       <MetaData title="Terms And Conditions" />
       <div className="container___">
-        <h1>Terms and Conditions of Sale</h1>
+        <h1>Terms and Conditions of Sale1</h1>
         <p>
-          Thank you for shopping with us! We really appreciate your business and
+          1Thank1111 you for shopping with us! We really appreciate your business and
           your interest in our products. We want to make sure you have a good
           experience purchasing from our webstore, CricketWeapon.com.
         </p>

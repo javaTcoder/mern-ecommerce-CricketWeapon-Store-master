@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import {
   Divider,
   Typography,
@@ -14,6 +15,8 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import MetaData from "../component/layouts/MataData/MataData";
+
+
 const useStyles = makeStyles((theme) => ({
   root_contactus: {
     padding: "8rem 0",
@@ -176,14 +179,31 @@ const ContactForm = () => {
   //const alert = useAlert();
   const history = useHistory();
   const handleCall = () => {
-    window.location.href = "tel:+8171280446";
+    window.location.href = "tel:+8240442051";
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [form, setForm] = React.useState({
+    issue: "e-commerce",
+    detail: "others",
+    language: "english",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await axios.post("/api/v1/support", form);
     toast.success("Your message has been sent successfully");
     history.push("/");
-  };
+  } catch (err) {
+    toast.error("Failed to send message");
+  }
+};
 
   return (
     <Box className={classes.root_contactus}>
@@ -209,7 +229,7 @@ const ContactForm = () => {
             }}
             onClick={handleCall}
           >
-            8171280446
+            8240442051
           </strong>
           .
         </Typography>
@@ -229,7 +249,7 @@ const ContactForm = () => {
 
         <Typography variant="body2" className={classes.address_contacts}>
           <span style={{ fontWeight: "500", paddingBottom: "0.5rem" }}>
-            CricketWeapon Store, Pvt Ltd.
+            ProductTrust Store, Pvt Ltd.
           </span>
           <br />
           15130 Sec 22
@@ -280,9 +300,12 @@ const ContactForm = () => {
               </Typography>
               <FormControl className={classes.formField_contact}>
                 <Select
+                  name="issue"
+                  value={form.issue}
+                  onChange={handleChange}
+                  
                   labelId="issue-label"
                   id="issue-select"
-                  defaultValue="e-commerce"
                   MenuProps={{
                     classes: { paper: classes.menu_contact },
                   }}
@@ -299,9 +322,11 @@ const ContactForm = () => {
               </Typography>
               <FormControl className={classes.formField_contact}>
                 <Select
+                  name="detail"
+                  value={form.detail}
+                  onChange={handleChange}
                   labelId="detail-label"
                   id="detail-select"
-                  defaultValue="others"
                   MenuProps={{
                     classes: { paper: classes.menu_contact },
                   }}
@@ -324,9 +349,11 @@ const ContactForm = () => {
               </Typography>
               <FormControl className={classes.formField_contact}>
                 <Select
+                  name="language"
+                  value={form.language}
+                  onChange={handleChange}
                   labelId="language-label"
                   id="language-select"
-                  defaultValue="english"
                   MenuProps={{
                     classes: { paper: classes.menu_contact },
                   }}
@@ -347,6 +374,9 @@ const ContactForm = () => {
               </Typography>
               <FormControl className={classes.formField_contact}>
                 <TextField
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
                   placeholder="Enter Your Email *"
                   id="email-input"
                   type="email"
@@ -361,6 +391,9 @@ const ContactForm = () => {
               </Typography>
               <FormControl className={classes.formField_contact}>
                 <TextField
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
                   id="message-textarea"
                   multiline
                   rows={6}

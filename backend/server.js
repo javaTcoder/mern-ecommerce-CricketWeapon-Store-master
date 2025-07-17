@@ -2,6 +2,8 @@ const app = require("./app");
 const dotenv = require("dotenv");
 const connectDB = require("./db/connectDB")
 const cloudinary = require("cloudinary");
+const job = require("./cron/cron");
+
 
 // Handling Uncaught Execption => anything not defind Uncaught Execption 
 
@@ -16,6 +18,7 @@ process.on("uncaughtException" , (err) =>{
  dotenv.config({path : "./config/config.env"})
 // Connect With MongoDB
 connectDB();
+job.start();
 
 
 // conncet with cloudinary

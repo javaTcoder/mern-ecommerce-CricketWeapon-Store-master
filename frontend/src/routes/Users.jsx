@@ -14,6 +14,7 @@ import OrderSuccess from "../component/Cart/OrderSuccess";
 import MyOrder from "../component/order/MyOrder";
 import ContactForm from "../component/layouts/About/Contact";
 import AboutUsPage from "../component/layouts/About/Aboutus";
+import FAQs from "../Terms&Condtions/FAQs";
 import ReturnPolicyPage from "../Terms&Condtions/Return";
 import TermsUse from "../Terms&Condtions/TermsAndUse";
 import TermsAndConditions from "../Terms&Condtions/TermsCondtion";
@@ -120,6 +121,9 @@ function Users() {
             </Route>
             <Route exact path="/about_us">
               <AboutUsPage />
+            </Route>
+            <Route exact path="/FAQs">
+              <FAQs />
             </Route>
 
             <PrivateRoute exact path="/account" component={Profile} />

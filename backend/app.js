@@ -22,6 +22,9 @@ const product = require("./route/productRoute")
 const payment = require("./route/paymentRoute");
 const emailVerification = require("./route/emailVerificationRoute");
 const review = require("./route/reviewRoutes");
+const support = require("./route/supportRoute");
+const abusiveReport = require("./route/abusiveReportRoute");
+
 
 // for req.cookie to get token while autentication
 app.use(cookieParser());
@@ -38,6 +41,10 @@ app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", payment);
 app.use("/api/v1", review);
+app.use("/api/v1", support);
+app.use("/api/v1", abusiveReport);
+
+
 
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 

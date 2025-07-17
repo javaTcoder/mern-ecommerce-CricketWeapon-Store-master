@@ -12,7 +12,18 @@ const ReviewActions = ({ review }) => {
   // Placeholder handlers
   const handleLike = () => setLikes((l) => l + 1);
   const handleDislike = () => setLikes((l) => (l > 0 ? l - 1 : 0));
-  const handleReport = () => alert("Reported!");
+  // Example handler in ReviewActions.jsx
+const handleReport = () => {
+  // ...existing logic...
+  // Save notification for admin (simulate with localStorage)
+  const flagged = JSON.parse(localStorage.getItem("flaggedReports") || "[]");
+  flagged.push({
+    time: new Date().toISOString(),
+    message: "A review was flagged as abusive or inappropriate.",
+  });
+  localStorage.setItem("flaggedReports", JSON.stringify(flagged));
+  alert("Reported! Admin will be notified.");
+};
 
   return (
     <div className={classes.actionsRoot}>
