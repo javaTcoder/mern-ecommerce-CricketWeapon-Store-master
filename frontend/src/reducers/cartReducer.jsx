@@ -5,20 +5,19 @@ export function cartReducer(state = { cartItems: [], shippingInfo: {} }, action)
 
   switch (action.type) {
     case ADD_TO_CART:
-      const item = action.payload;
+      // normalize incoming payload to ensure discountPercentage is present
+      const payloadItem = action.payload;
+      const item = { ...payloadItem, discountPercentage: payloadItem.discountPercentage ?? 0 };
       // find if product exist in cartItem already
-      const isExist = state.cartItems.find(cartItem => {
-        return cartItem.productId === item.productId
+      const isExist = state.cartItems.find((cartItem) => {
+        return cartItem.productId === item.productId;
+      });
 
-      })
-   
-      console.log(action.payload);  
-      // if exist alerady then replace same product 
+      // if exist already then replace same product
       if (isExist) {
         return {
           ...state,
           cartItems: state.cartItems.map((cartItem) => {
-
             return item.productId === cartItem.productId ? item : cartItem;
           }),
         };
@@ -27,8 +26,8 @@ export function cartReducer(state = { cartItems: [], shippingInfo: {} }, action)
       else {
         return {
           ...state,
-          cartItems: [...state.cartItems, item]
-        }
+          cartItems: [...state.cartItems, item],
+        };
       }
 
     case REMOVE_CART_ITEM:

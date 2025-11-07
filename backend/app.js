@@ -1,41 +1,46 @@
+// ------------------------------
+// ✅ app.js
+// ------------------------------
 const express = require("express");
 const app = express();
 const errorMiddleware = require("./middleWare/error");
-const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const fileUpload = require("express-fileupload"); // used for image and other files
-//const path = require("path");
 const cors = require("cors");
+const fileUpload = require("express-fileupload"); // ✅ for review uploads
+// const path = require("path");
 
+// ✅ Parse cookies first (used in authentication middleware)
+app.use(cookieParser());
 
+// ✅ Global JSON and URL-encoded parsers (for all routes like profile/product updates)
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
+// ✅ Enable multipart/form-data parsing globally (for reviews with images)
+app.use(
+  fileUpload({
+    useTempFiles: true, // temporary file storage
+    tempFileDir: "/tmp/",
+    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB
+  })
+);
 
+// ✅ CORS configuration (allow frontend connection)
+const frontendOrigin = process.env.FRONTEND_URL || "http://localhost:3000";
+app.use(cors({ origin: frontendOrigin, credentials: true }));
 
-
-
-
-// routes
-
+// ✅ Import all routes
 const user = require("./route/userRoute");
 const order = require("./route/orderRoute");
-const product = require("./route/productRoute")
+const product = require("./route/productRoute");
 const payment = require("./route/paymentRoute");
 const emailVerification = require("./route/emailVerificationRoute");
 const review = require("./route/reviewRoutes");
 const support = require("./route/supportRoute");
 const abusiveReport = require("./route/abusiveReportRoute");
 
-
-// for req.cookie to get token while autentication
-app.use(cookieParser());
-app.use(express.json());
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-app.use(fileUpload());
-app.use(errorMiddleware);
-
+// ✅ Use routes
 app.use("/api/v1", emailVerification);
-// app.use("/api/v1", emailVerification); // for email verification
 app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
@@ -44,23 +49,7 @@ app.use("/api/v1", review);
 app.use("/api/v1", support);
 app.use("/api/v1", abusiveReport);
 
-
-
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-
-
-
-// if (process.env.NODE_ENV !== "production") {
-// }
-
-//  if (process.env.NODE_ENV === "production") {
-//  	app.use(express.static(path.join(__dirname, "../frontend/build")));
-//     app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
-//     });
-//  }
-
-
-
+// ✅ Error middleware must come after all routes
+app.use(errorMiddleware);
 
 module.exports = app;

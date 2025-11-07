@@ -47,6 +47,7 @@ function NewProduct() {
   const [category, setCategory] = useState("");
   const [Stock, setStock] = useState(0);
   const [info , setInfo] = useState("")
+  const [discountPercentage, setDiscountPercentage] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
   const [isCategory, setIsCategory] = useState(false);
@@ -103,6 +104,7 @@ function NewProduct() {
     myForm.set("category", category);
     myForm.set("Stock", Stock);
     myForm.set("info", info);
+    myForm.set("discountPercentage", discountPercentage);
     images.forEach((currImg) => {
       myForm.append("images", currImg);
     });
@@ -164,7 +166,7 @@ function NewProduct() {
                     component="h1"
                     className={classes.heading}
                   >
-                    Create Product
+                    Create Product2
                   </Typography>
                   <TextField
                     variant="outlined"
@@ -248,6 +250,27 @@ function NewProduct() {
                           }}
                         >
                           <InfoIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <TextField
+                    variant="outlined"
+                    label="Discount Percentage"
+                    value={discountPercentage}
+                    required
+                    className={`${classes.passwordInput} ${classes.textField}`}
+                    onChange={(e) => setDiscountPercentage(e.target.value)}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment
+                          position="end"
+                          style={{
+                            fontSize: 20,
+                            color: "#414141",
+                          }}
+                        >
+                          <AttachMoneyIcon />
                         </InputAdornment>
                       ),
                     }}

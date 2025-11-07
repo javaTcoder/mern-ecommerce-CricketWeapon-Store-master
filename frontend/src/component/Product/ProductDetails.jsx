@@ -55,20 +55,18 @@ useEffect(() => {
     dispatch(clearErrors);
   }
   if (success) {
-    setPreviewImg(product.images[0].url);
-
     handleActive(0);
     dispatch({ type: PRODUCT_DETAILS_RESET });
   }
   dispatch(getProductDetails(match.params.id));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [
-  dispatch,
-  error,
-  success,
-  match.params.id,
+}, [dispatch, error, success, match.params.id]);
 
-]);
+  // Update previewImg whenever product.images changes
+  useEffect(() => {
+    if (product && product.images && product.images.length > 0) {
+      setPreviewImg(product.images[0].url);
+    }
+  }, [product]);
 
 
   // handling Add-to-cart
@@ -105,12 +103,13 @@ useEffect(() => {
   }
 
   // calculating Prices
-  const finalPrice = generateDiscountedPrice(product.price);
+  const discountPct = product.discountPercentage || 0;
+  const finalPrice = product.price * (1 - discountPct / 100);
   const discountedPrice = product.price - finalPrice;
   const newPrice = dispalyMoney(finalPrice);
   const oldPrice = dispalyMoney(product.price);
   const savedPrice = dispalyMoney(discountedPrice);
-  const savedDiscount = calculateDiscount(discountedPrice, product.price);
+  const savedDiscount = discountPct;
 
   return (
     <>

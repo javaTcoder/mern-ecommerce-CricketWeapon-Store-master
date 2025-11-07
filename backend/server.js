@@ -1,8 +1,12 @@
+require("dotenv").config({ path: "./config/config.env" }); // <-- Move this to the very top
+
 const app = require("./app");
-const dotenv = require("dotenv");
 const connectDB = require("./db/connectDB")
 const cloudinary = require("cloudinary");
 const job = require("./cron/cron");
+//const express = require("express");
+const paymentRoute = require("./route/paymentRoute");
+
 
 
 // Handling Uncaught Execption => anything not defind Uncaught Execption 
@@ -14,8 +18,6 @@ process.on("uncaughtException" , (err) =>{
 })
 
 
-//config =>
- dotenv.config({path : "./config/config.env"})
 // Connect With MongoDB
 connectDB();
 job.start();
@@ -29,7 +31,17 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
 });
 
+
+
+
 const PORT = process.env.PORT || 5000;
+
+ // ensure body parsers are enabled for urlencoded and json
+ //app.use(express.json());
+ //app.use(express.urlencoded({ extended: true }));
+
+// mount payment routes
+app.use("/api/v1/payment", paymentRoute);
 
 const server = app.listen(PORT, () => {
   console.log(`Server is listening on PORT ${process.env.PORT}`);

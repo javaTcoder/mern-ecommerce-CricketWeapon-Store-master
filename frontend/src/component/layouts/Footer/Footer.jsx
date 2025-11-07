@@ -54,11 +54,11 @@ const footMenu = [
       //   link: "Security",
       //   path: "/policy/privacy",
       // },
-      // {
-      //   id: 3,
-      //   link: "Sitemap",
-      //   path: "/policy/Terms",
-      // },
+      {
+       id: 3,
+         link: "Sitemap",
+         path: "/policy/Terms",
+       },
       {
         id: 4,
         link: "Privacy Policy",

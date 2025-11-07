@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link , useHistory } from "react-router-dom";
 import { Avatar, Typography, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -11,6 +11,9 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import HomeIcon from "@mui/icons-material/Home";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import Badge from "@mui/material/Badge";
+
 const useStyles = makeStyles((theme) => ({
   sidebar: {
     backgroundColor: "#fff",
@@ -104,145 +107,165 @@ const useStyles = makeStyles((theme) => ({
 function Sidebar() {
   const classes = useStyles();
   const { user, loading } = useSelector((state) => state.userData); 
-
-
+  const [paidCount, setPaidCount] = useState(0);
   const history = useHistory();
 
-function accountHandler() {
+  useEffect(() => {
+    const backendBase = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+    const fetchPaidCount = async () => {
+      try {
+        const res = await axios.get(`${backendBase}/api/v1/payment/transactions/all`, { timeout: 10000 });
+        if (res.data && Array.isArray(res.data.transactions)) {
+          const count = res.data.transactions.filter(t => String(t.status).toUpperCase() === "SUCCESS").length;
+          setPaidCount(count);
+        } else {
+          setPaidCount(0);
+        }
+      } catch (err) {
+        console.warn("[Sidebar] failed to fetch payment transactions:", err.message || err);
+        setPaidCount(0);
+      }
+    };
+    fetchPaidCount();
+  }, []);
 
-  history.push("/account");
-}
+ function accountHandler() {
 
-  return (
-    <>
-      {!loading && (
-        <>
-          <div className={classes.sidebar}>
-            <Avatar
-              src={user && user.avatar.url}
-              alt="User Avatar"
-              className={classes.avatar11}
-            />
-            <Typography variant="subtitle1" className={classes.name}>
-              {user && user.name}
-            </Typography>
-            <Typography variant="subtitle2" className={classes.email}>
-              {user && user.email}
-            </Typography>
-            <div className={classes.divider} />
-            <ul className={classes.sideBarMenu}>
-              <Link
-                to="/admin/dashboard"
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                <li className={classes.sideBarMenuItem}>
-                  <DashboardIcon fontSize="large" />
-                  <span className={classes.sideBarMenuItem_text}>
-                    {" "}
-                    Dashboard
-                  </span>
-                </li>
-              </Link>
+   history.push("/account");
+ }
 
-              <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
-                <li className={classes.sideBarMenuItem}>
-                  <HomeIcon fontSize="large" />
-                  <span className={classes.sideBarMenuItem_text}>Home</span>
-                </li>
-              </Link>
+   return (
+     <>
+       {!loading && (
+         <>
+           <div className={classes.sidebar}>
+             <Avatar
+               src={user && user.avatar.url}
+               alt="User Avatar"
+               className={classes.avatar11}
+             />
+             <Typography variant="subtitle1" className={classes.name}>
+               {user && user.name}
+             </Typography>
+             <Typography variant="subtitle2" className={classes.email}>
+               {user && user.email}
+             </Typography>
+             <div className={classes.divider} />
+             <ul className={classes.sideBarMenu}>
+               <Link
+                 to="/admin/dashboard"
+                 style={{ color: "inherit", textDecoration: "none" }}
+               >
+                 <li className={classes.sideBarMenuItem}>
+                   <DashboardIcon fontSize="large" />
+                   <span className={classes.sideBarMenuItem_text}>
+                     {" "}
+                     Dashboard
+                   </span>
+                 </li>
+               </Link>
 
-              <Link
-                to="/admin/products"
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                <li className={classes.sideBarMenuItem}>
-                  <PostAddIcon fontSize="large" />
+               <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+                 <li className={classes.sideBarMenuItem}>
+                   <HomeIcon fontSize="large" />
+                   <span className={classes.sideBarMenuItem_text}>Home</span>
+                 </li>
+               </Link>
 
-                  <span className={classes.sideBarMenuItem_text}>
-                    {" "}
-                    Products
-                  </span>
-                </li>
-              </Link>
-              <Link
-                to="/admin/new/product"
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                <li className={classes.sideBarMenuItem}>
-                  <AddIcon fontSize="large" />
-                  <span className={classes.sideBarMenuItem_text}>
-                    Add Product
-                  </span>
-                </li>
-              </Link>
+               <Link
+                 to="/admin/products"
+                 style={{ color: "inherit", textDecoration: "none" }}
+               >
+                 <li className={classes.sideBarMenuItem}>
+                   <PostAddIcon fontSize="large" />
 
-              <Link
-                to="/admin/orders"
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                <li className={classes.sideBarMenuItem}>
-                  <ListAltIcon fontSize="large" />
-                  <span className={classes.sideBarMenuItem_text}>Orders</span>
-                </li>
-              </Link>
-              <Link
-                to="/admin/reviews"
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                <li className={classes.sideBarMenuItem}>
-                  <RateReviewIcon fontSize="large" />
-                  <span className={classes.sideBarMenuItem_text}>Reviews</span>
-                </li>
-              </Link>
+                   <span className={classes.sideBarMenuItem_text}>
+                     {" "}
+                     Products
+                   </span>
+                 </li>
+               </Link>
+               <Link
+                 to="/admin/new/product"
+                 style={{ color: "inherit", textDecoration: "none" }}
+               >
+                 <li className={classes.sideBarMenuItem}>
+                   <AddIcon fontSize="large" />
+                   <span className={classes.sideBarMenuItem_text}>
+                     Add Product
+                   </span>
+                 </li>
+               </Link>
 
-              <Link
-                to="/contact"
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                <li className={classes.sideBarMenuItem}>
-                  <ContactPageIcon fontSize="large" />
-                  <span className={classes.sideBarMenuItem_text}>Contact</span>
-                </li>
-              </Link>
+               <Link
+                 to="/admin/orders"
+                 style={{ color: "inherit", textDecoration: "none" }}
+               >
+                 <li className={classes.sideBarMenuItem}>
+                   <ListAltIcon fontSize="large" />
+                   <Badge badgeContent={paidCount} color="secondary" overlap="circular" anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+                     <span className={classes.sideBarMenuItem_text}>Orders</span>
+                   </Badge>
+                 </li>
+               </Link>
+               <Link
+                 to="/admin/reviews"
+                 style={{ color: "inherit", textDecoration: "none" }}
+               >
+                 <li className={classes.sideBarMenuItem}>
+                   <RateReviewIcon fontSize="large" />
+                   <span className={classes.sideBarMenuItem_text}>Reviews</span>
+                 </li>
+               </Link>
 
-              <Link
-                to="/admin/support-requests"
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                <li className={classes.sideBarMenuItem}>
-                  <ListAltIcon fontSize="large" />
-                  <span className={classes.sideBarMenuItem_text}>Support Requests</span>
-                </li>
-              </Link>
+               <Link
+                 to="/contact"
+                 style={{ color: "inherit", textDecoration: "none" }}
+               >
+                 <li className={classes.sideBarMenuItem}>
+                   <ContactPageIcon fontSize="large" />
+                   <span className={classes.sideBarMenuItem_text}>Contact</span>
+                 </li>
+               </Link>
 
-              <Link
-                to="/admin/abusive-reports"
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
-                <li className={classes.sideBarMenuItem}>
-                  <ListAltIcon fontSize="large" />
-                  <span className={classes.sideBarMenuItem_text}>Abusive Reports</span>
-                </li>
-              </Link>
-              
-            </ul>
-            <div className={classes.divider} />
-            <Button
-              className={classes.button}
-              onClick={accountHandler}
-              variant="contained"
-            >
-              <ManageAccountsIcon
-                fontSize="large"
-                style={{ marginRight: "10px" }}
-              />
-              Account
-            </Button>
-          </div>
-        </>
-      )}
-    </>
-  );
-}
+               <Link
+                 to="/admin/support-requests"
+                 style={{ color: "inherit", textDecoration: "none" }}
+               >
+                 <li className={classes.sideBarMenuItem}>
+                   <ListAltIcon fontSize="large" />
+                   <span className={classes.sideBarMenuItem_text}>Support Requests</span>
+                 </li>
+               </Link>
 
-export default Sidebar;
+               <Link
+                 to="/admin/abusive-reports"
+                 style={{ color: "inherit", textDecoration: "none" }}
+               >
+                 <li className={classes.sideBarMenuItem}>
+                   <ListAltIcon fontSize="large" />
+                   <span className={classes.sideBarMenuItem_text}>Abusive Reports</span>
+                 </li>
+               </Link>
+               
+             </ul>
+             <div className={classes.divider} />
+             <Button
+               className={classes.button}
+               onClick={accountHandler}
+               variant="contained"
+             >
+               <ManageAccountsIcon
+                 fontSize="large"
+                 style={{ marginRight: "10px" }}
+               />
+               Account
+             </Button>
+           </div>
+         </>
+       )}
+     </>
+   );
+ }
+
+ export default Sidebar;

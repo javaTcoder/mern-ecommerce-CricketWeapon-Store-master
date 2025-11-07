@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import {
  
   NEW_REVIEW_SUCCESS,
@@ -27,16 +28,28 @@ export const newReview = (reviewData) => async (dispatch) => {
   try {
     dispatch({ type: NEW_REVIEW_REQUEST });
 
-    const config = { headers: { "Content-Type": "application/json" } };
+    console.log("🔥 REVIEW DATA TYPE:", reviewData.constructor.name);
+    if (reviewData instanceof FormData) {
+      for (let [key, val] of reviewData.entries()) {
+        console.log("FormData:", key, val);
+      }
+    } else {
+      console.log("JSON DATA:", reviewData);
+    } 
 
-    const { data } = await axios.put(`/api/v1/review/new`, reviewData, config);
+    const { data } = await axios.post(`/api/v1/review/new`, reviewData);
 
     dispatch({ type: NEW_REVIEW_SUCCESS, payload: data.success });
   } catch (error) {
-    dispatch({ type: NEW_REVIEW_FAIL, payload: error.message });
+    console.error("❌ Review upload failed:", error);
+    dispatch({
+      type: NEW_REVIEW_FAIL,
+      payload: error?.response?.data?.message || error.message,
+    });
   }
-}; 
- 
+};
+
+
  
  
  
@@ -71,27 +84,39 @@ export const newReview = (reviewData) => async (dispatch) => {
  }
 
  // Edit (update) a review
+ // Edit Review
 export const editReview = (reviewId, productId, reviewData) => async (dispatch) => {
   try {
     dispatch({ type: EDIT_REVIEW_REQUEST });
 
-    const config = { headers: { "Content-Type": "application/json" } };
+    const config =
+      reviewData instanceof FormData
+        ? {}
+        : { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.put(
-      `/api/v1/review/new`,
-      { reviewId, productId, ...reviewData },
-      config
-    );
+
+    const payload =
+      reviewData instanceof FormData
+        ? reviewData
+        : { reviewId, productId, ...reviewData };
+
+  // backend route expects POST /api/v1/review/new (same endpoint for create/update)
+  const { data } = await axios.post(`/api/v1/review/new`, payload, config);
 
     dispatch({ type: EDIT_REVIEW_SUCCESS, payload: data.success });
   } catch (error) {
-    dispatch({ type: EDIT_REVIEW_FAIL, payload: error.message });
+    dispatch({ type: EDIT_REVIEW_FAIL, payload: error?.response?.data?.message || error.message });
   }
 };
 
-
 // Like/Dislike review
 export const likeDislikeReview = (reviewId, action) => async (dispatch, getState) => {
+  // Check if user is logged in
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  if (!user) {
+    toast.info("Please login first");
+    return;
+  }
   try {
     dispatch({ type: LIKE_REVIEW_REQUEST });
     await axios.post(`/api/v1/review/like-dislike`, { reviewId, action });
@@ -112,3 +137,44 @@ export const likeDislikeReview = (reviewId, action) => async (dispatch, getState
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
 };
+
+/*
+  Testing notes (Postman / curl)
+
+  Endpoint used by frontend:
+    PUT /api/v1/review/new
+
+  Postman (recommended):
+    - Method: PUT
+    - URL: http://localhost:5000/api/v1/review/new
+    - Authorization: Add Bearer token if your API requires auth (Headers -> Authorization: Bearer <token>)
+    - Body -> form-data:
+        * title       (Text) e.g. "Great product"
+        * comment     (Text) e.g. "Worked well"
+        * ratings     (Text/Number) e.g. "4.5"
+        * recommend   (Text) "true" or "false"
+        * productId   (Text) <product id>
+        * images      (File) choose an image file (optional)
+        * reviewId    (Text) include when editing an existing review
+
+    - Important: DO NOT set Content-Type header manually. Postman will add multipart/form-data with boundary automatically.
+
+  curl example (with file):
+    curl -X PUT "http://localhost:5000/api/v1/review/new" \
+      -H "Authorization: Bearer <token>" \
+      -F "title=My Title" \
+      -F "comment=My comment" \
+      -F "ratings=4.5" \
+      -F "recommend=true" \
+      -F "productId=<productId>" \
+      -F "images=@/path/to/image.jpg"
+
+  What to check:
+    - HTTP status and response JSON (success, saved review, image URL(s))
+    - Backend logs for errors
+    - DB/document to ensure review record saved and image URL/path present
+    - If using cloud storage, check storage bucket for uploaded file
+
+  Note: The action creator already handles FormData properly by not forcing Content-Type when reviewData is a FormData instance.
+*/
+

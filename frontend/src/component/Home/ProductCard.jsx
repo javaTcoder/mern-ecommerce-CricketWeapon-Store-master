@@ -69,8 +69,10 @@ const useStyles = makeStyles((theme) => ({
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-    let discountPrice = generateDiscountedPrice(product.price);
-    discountPrice = dispalyMoney(discountPrice);
+  // Use product.discountPercentage from MongoDB for discount calculation
+  const discountPct = product.discountPercentage || 0;
+  let discountPrice = product.price * (1 - discountPct / 100);
+  discountPrice = dispalyMoney(discountPrice);
   const oldPrice = dispalyMoney(product.price);
   
   const truncated =

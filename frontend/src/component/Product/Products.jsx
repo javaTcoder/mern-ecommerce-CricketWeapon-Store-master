@@ -18,6 +18,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { dispalyMoney } from "../DisplayMoney/DisplayMoney";
 
 const categories = [
   "Cricket Kits",
@@ -69,8 +70,14 @@ function Products() {
   };
 
   const handleCategoryChange = (selectedCat) => {
-    setCategory(selectedCat);
-    setSelectedCategory(selectedCat);
+    // Toggle the category: if the clicked category is already selected, unselect it.
+    if (selectedCat === selectedCategory) {
+      setCategory("");
+      setSelectedCategory("");
+    } else {
+      setCategory(selectedCat);
+      setSelectedCategory(selectedCat);
+    }
   };
 
   const handleRatingChange = (event) => {
@@ -184,9 +191,24 @@ function Products() {
               <Loader />
             ) : products && products.length > 0 ? (
               <div className={products.length < 2 ? "products1" : "products"}>
-                {products.map((product) => (
-                  <ProductCard key={product._id} product={product} />
-                ))}
+                {products.map((product) => {
+                  // Calculate discounted price for each product
+                  const discountPct = product.discountPercentage || 0;
+                  const finalPrice = product.price * (1 - discountPct / 100);
+                  const displayFinalPrice = dispalyMoney(finalPrice);
+                  const displayOldPrice = dispalyMoney(product.price);
+                  return (
+                    <ProductCard
+                      key={product._id}
+                      product={{
+                        ...product,
+                        displayFinalPrice,
+                        displayOldPrice,
+                        discountPercentage: discountPct,
+                      }}
+                    />
+                  );
+                })}
               </div>
             ) : (
               <div className="emptyProductsContainer">

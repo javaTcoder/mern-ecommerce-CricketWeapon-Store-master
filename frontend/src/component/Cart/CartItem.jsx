@@ -214,9 +214,9 @@ function CartItem({
 }) {
   const classes = useStyles();
 
-  /// calculate price after discount
-
-  let finalPrice = generateDiscountedPrice(item.price);
+  /// calculate price after discount using item.discountPercentage from MongoDB
+  const discountPct = item.discountPercentage || 0;
+  let finalPrice = item.price * (1 - discountPct / 100);
   let discountedPrice = item.price - finalPrice;
   discountedPrice = dispalyMoney(discountedPrice);
   let total = finalPrice * item.quantity;
@@ -248,7 +248,7 @@ function CartItem({
 
           <div className={classes.priceItem}>
             <Typography className={classes.cartSubHeadings} variant="body2">
-              Price:
+              Price1:
             </Typography>
             <Typography variant="subtitle1" className={classes.itemPrice}>
               {finalPrice}

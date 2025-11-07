@@ -209,6 +209,30 @@ const handleSubmit = async (e) => {
     <Box className={classes.root_contactus}>
       <MetaData  title={"Contact Us"}/>
       <div className={classes.contact_Container_contactus}>
+        {/* --- Inserted Contact Details --- */}
+        <Typography variant="h5" style={{ marginBottom: "1rem" }}>
+          Last updated on Sep 6 2025
+        </Typography>
+        <Typography variant="body2" style={{ marginBottom: "1rem" }}>
+          You may contact us using the information below:
+        </Typography>
+        <Typography variant="body2" style={{ marginBottom: "0.5rem" }}>
+          <strong>Merchant Legal entity name:</strong> SURAJ SHAW
+        </Typography>
+        <Typography variant="body2" style={{ marginBottom: "0.5rem" }}>
+          <strong>Registered Address:</strong> Sahebabad football math dhapa kolkata 700105 North Parganas WEST BENGAL 700105
+        </Typography>
+        <Typography variant="body2" style={{ marginBottom: "0.5rem" }}>
+          <strong>Operational Address:</strong> Sahebabad football math dhapa kolkata 700105 North Parganas WEST BENGAL 700105
+        </Typography>
+        <Typography variant="body2" style={{ marginBottom: "0.5rem" }}>
+          <strong>Telephone No:</strong> 8240442051
+        </Typography>
+        <Typography variant="body2" style={{ marginBottom: "1.5rem" }}>
+          <strong>E-Mail ID:</strong> producttrust030@gmail.com
+        </Typography>
+        {/* --- End Inserted Contact Details --- */}
+
         <Typography variant="h2" className={classes.title_contact_us}>
           Contact Us
         </Typography>

@@ -63,6 +63,7 @@ function UpdateProduct() {
   const [oldImages, setOldImages] = useState([]);
   const fileInputRef = useRef();
   const [toggle, setToggle] = useState(false);
+  const [discountPercentage, setDiscountPercentage] = useState(0);
   const categories = [
     "Cricket Kits",
     "Batting Gloves",
@@ -92,6 +93,7 @@ function UpdateProduct() {
       setInfo(product.info);  
       setStock(product.Stock);
       setOldImages(product.images);
+      setDiscountPercentage(product.discountPercentage || 0); // <-- set discount from product
     }
 
     if (error) {
@@ -128,6 +130,7 @@ function UpdateProduct() {
     myForm.set("category", category);
     myForm.set("Stock", Stock);
     myForm.set("info", info);
+    myForm.set("discountPercentage", discountPercentage); // <-- send discount to backend
     images.forEach((currImg) => {
       myForm.append("images", currImg);
     });
@@ -199,7 +202,7 @@ function UpdateProduct() {
                       component="h1"
                       className={classes.heading}
                     >
-                      Create Product
+                      Create Product1
                     </Typography>
                     {/* SpellcheckIcon */}
                     <TextField
@@ -287,6 +290,19 @@ function UpdateProduct() {
                           </InputAdornment>
                         ),
                       }}
+                    />
+
+                    {/* Add discount input below price input */}
+                    <TextField
+                      variant="outlined"
+                      label="Discount Percentage (%)"
+                      type="number"
+                      inputProps={{ min: 0, max: 100 }}
+                      value={discountPercentage}
+                      required
+                      fullWidth
+                      className={classes.passwordInput}
+                      onChange={(e) => setDiscountPercentage(e.target.value)}
                     />
 
                     <div className={classes.selectOption}>

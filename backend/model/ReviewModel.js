@@ -7,7 +7,12 @@ const reviewSchema = new mongoose.Schema({
   comment: String,
   ratings: Number,
   recommend: Boolean,
-  images: [String],
+  images: [
+    {
+      url: { type: String, required: true },
+      public_id: { type: String }, // optional, for Cloudinary
+    }
+  ],
   likes: [{ type: mongoose.Schema.ObjectId, ref: "userModel" }],
   dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
   status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },

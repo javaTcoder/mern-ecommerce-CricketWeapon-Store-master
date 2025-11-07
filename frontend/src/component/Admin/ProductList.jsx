@@ -84,7 +84,7 @@ const columns = [
   },
   {
     field: "actions",
-    headerName: "Actions",
+    headerName: "Actions", // <-- change from "Actions1" to "Actions"
     flex: 1,
     sortable: false,
     minWidth: 230,
@@ -100,9 +100,8 @@ const columns = [
           </Link>
 
           <div
-            onClick={() =>
-              deleteProductHandler(params.row.id)
-            }
+            onClick={() => deleteProductHandler(params.row.id)}
+            style={{ display: "inline-block", cursor: "pointer", marginLeft: "1rem" }} // <-- add cursor pointer and margin
           >
             <DeleteIcon className="iconbtn" />
           </div>
@@ -185,3 +184,4 @@ const columns = [
 }
 
 export default ProductList;
+

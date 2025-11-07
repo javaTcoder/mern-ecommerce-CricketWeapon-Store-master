@@ -428,6 +428,35 @@ function App() {
               </>
             )}
           />
+
+          <Route
+            exact
+            path="/process/payment/success"
+            render={() => (
+              <>
+                {<Header />}
+                <OrderSuccess />
+                <Services />
+                {<Footer />}
+              </>
+            )}
+          />
+
+          <Route
+            exact
+            path="/process/payment/failure"
+            render={() => (
+              <>
+                {<Header />}
+                <div style={{ padding: "3rem", textAlign: "center" }}>
+                  <h2>Payment Failed</h2>
+                  <p>There was an issue processing your payment. Please try again or choose another payment method.</p>
+                </div>
+                <Services />
+                {<Footer />}
+              </>
+            )}
+          />
         </Switch>
 
         {/* Admin routes */}

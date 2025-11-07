@@ -3,6 +3,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const asyncWrapper = require("../middleWare/asyncWrapper");
 const ApiFeatures = require("../utils/apiFeatures");
 const cloudinary = require("cloudinary");
+const Product = require("../models/productModel");
 
 // >>>>>>>>>>>>>>>>>>>>> createProduct Admin route  >>>>>>>>>>>>>>>>>>>>>>>>
 exports.createProduct = asyncWrapper(async (req, res) => {
@@ -48,7 +49,17 @@ exports.createProduct = asyncWrapper(async (req, res) => {
     req.body.images = imagesLinks;
   }
 
+  // { received form data / req.body processing }
+  const discount = req.body.discountPercentage !== undefined ? Number(req.body.discountPercentage) : 0;
+  if (isNaN(discount) || discount < 0 || discount > 100) {
+    return res.status(400).json({ success: false, message: "discountPercentage must be a number between 0 and 100" });
+  }
+
   const data = await ProductModel.create(req.body);
+
+  // ensure discountPercentage persisted
+  data.discountPercentage = discount; // or include in the create payload
+  await data.save();
 
   res.status(200).json({ success: true, data: data });
 });
@@ -106,33 +117,48 @@ exports.updateProduct = asyncWrapper(async (req, res, next) => {
     return next(new ErrorHandler("Product not found", 404));
   }
 
+  // Only process images if provided in the request
   let images = [];
+  if (req.body.images) {
+    if (typeof req.body.images === "string") {
+      images.push(req.body.images);
+    } else if (Array.isArray(req.body.images)) {
+      images = req.body.images;
+    }
 
-  if (typeof req.body.images === "string") {
-    images.push(req.body.images);
-  } else {
-    images = req.body.images;
+    if (images.length > 0) {
+      // Deleting Images From Cloudinary (only if existing images array present)
+      if (Array.isArray(product.images) && product.images.length > 0) {
+        for (let i = 0; i < product.images.length; i++) {
+          if (product.images[i] && product.images[i].product_id) {
+            await cloudinary.v2.uploader.destroy(product.images[i].product_id);
+          }
+        }
+      }
+
+      const imagesLinks = [];
+      for (let img of images) {
+        const result = await cloudinary.v2.uploader.upload(img, {
+          folder: "Products",
+        });
+
+        imagesLinks.push({
+          product_id: result.public_id,
+          url: result.secure_url,
+        });
+      }
+
+      req.body.images = imagesLinks;
+    }
   }
 
-  if (images !== undefined) {
-    // Deleting Images From Cloudinary
-    for (let i = 0; i < product.images.length; i++) {
-      await cloudinary.v2.uploader.destroy(product.images[i].product_id);
+  // ensure discountPercentage updated
+  if (req.body.discountPercentage !== undefined) {
+    const discountVal = Number(req.body.discountPercentage);
+    if (isNaN(discountVal) || discountVal < 0 || discountVal > 100) {
+      return res.status(400).json({ success: false, message: "discountPercentage must be a number between 0 and 100" });
     }
-
-    const imagesLinks = [];
-    for (let img of images) {
-      const result = await cloudinary.v2.uploader.upload(img, {
-        folder: "Products",
-      });
-
-      imagesLinks.push({
-        product_id: result.public_id,
-        url: result.secure_url,
-      });
-    }
-
-    req.body.images = imagesLinks;
+    product.discountPercentage = discountVal;
   }
 
   product = await ProductModel.findByIdAndUpdate(req.params.id, req.body, {
@@ -180,6 +206,29 @@ exports.getProductDetails = asyncWrapper(async (req, res, next) => {
     succes: true,
     Product: Product,
   });
+});
+
+// PUT /api/v1/admin/product/:id/discount
+exports.updateProductDiscount = asyncWrapper(async (req, res, next) => {
+  const productId = req.params.id;
+  const { discountPercentage } = req.body;
+
+  if (discountPercentage == null) {
+    return res.status(400).json({ success: false, message: "discountPercentage is required" });
+  }
+  const num = Number(discountPercentage);
+  if (Number.isNaN(num) || num < 0 || num > 100) {
+    return res.status(400).json({ success: false, message: "discountPercentage must be a number between 0 and 100" });
+  }
+
+  const product = await Product.findById(productId);
+  if (!product) return res.status(404).json({ success: false, message: "Product not found" });
+
+  product.discountPercentage = num;
+  await product.save();
+
+  // Return updated product (frontend will receive discountPercentage)
+  res.status(200).json({ success: true, product });
 });
 
 

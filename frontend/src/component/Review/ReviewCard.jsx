@@ -55,6 +55,8 @@ const ReviewCard = () => {
   const handleReviewSubmitted = () => {
     dispatch(getProductDetails(product._id));
     dispatch(getAllreviews(product._id));
+    // Optionally, you can also close the dialog here if needed
+    setOpen(false);
   };
 
 
@@ -98,11 +100,11 @@ const ReviewCard = () => {
 
     // Check if user has already reviewed
   const userHasReviewed = reviews
-    ? reviews.some(
-        (rev) =>
-          (rev.user && rev.user._id === user?._id) || // populated
-          rev.user === user?._id // plain id
-      )
+    ? reviews.some((rev) => {
+        const revUserId = rev.user && rev.user._id ? String(rev.user._id) : String(rev.user || "");
+        const currentUserId = String(user?._id || "");
+        return revUserId === currentUserId;
+      })
     : false;
 
   const handleClickOpen = () => {
@@ -112,10 +114,11 @@ const ReviewCard = () => {
       return;
     }
       // Find the user's review if it exists
-  const myReview = reviews.find(
-    (rev) =>
-      (rev.user && rev.user._id === user?._id) || rev.user === user?._id
-  );
+  const myReview = reviews.find((rev) => {
+    const revUserId = rev.user && rev.user._id ? String(rev.user._id) : String(rev.user || "");
+    const currentUserId = String(user?._id || "");
+    return revUserId === currentUserId;
+  });
     setEditingReview(myReview || null); // Reset editing review state
     // Open the dialog box for writing a review
     setOpen(true);
@@ -150,19 +153,22 @@ const ReviewCard = () => {
           editingReview={editingReview}
           className={classes.dialog}
         />
-        
       </Suspense>
       <Grid container alignItems="center" style={{ marginTop: "2rem" }}>
         <Grid item className={classes.ratingContainer}>
           <Rating
-            value={product.ratings}
+            value={
+              product && product.ratings !== undefined && product.ratings !== null
+                ? Number(product.ratings) || 0
+                : 0
+            }
             precision={0.5}
             readOnly
             className={classes.star}
           />
         </Grid>
         <Typography variant="body2" className={classes.ratingNumber}>
-          {product.ratings} stars
+          {(product && (product.ratings ?? 0)) + " stars"}
         </Typography>
         <Grid item>
           <Typography variant="body2">
@@ -211,13 +217,28 @@ const ReviewCard = () => {
       <div className={classes.container}>
         {reviews &&
         reviews.map((review) => (
-          <MyCard
-            key={review._id}
-            review={review}
-            isOwnReview={user && ((review.user && review.user._id === user._id) || review.user === user._id)}
-            onEdit={handleEdit}
-            onDelete={() => handleDelete(review)}
-          />
+          <div key={review._id} style={{ marginBottom: "2rem" }}>
+            <MyCard
+              key={review._id}
+              review={review}
+              isOwnReview={user && ((review.user && review.user._id === user._id) || review.user === user._id)}
+              onEdit={handleEdit}
+              onDelete={() => handleDelete(review)}
+            />
+            {/* Show review images if present */}
+            {/* {review.images && review.images.length > 0 && (
+              <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+                {review.images.map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img.url || img}
+                    alt={`Review ${idx + 1}`}
+                    style={{ width: 80, borderRadius: 8 }}
+                  />
+                ))}
+              </div>
+            )} */}
+          </div>
         ))}
       </div>
     </div>

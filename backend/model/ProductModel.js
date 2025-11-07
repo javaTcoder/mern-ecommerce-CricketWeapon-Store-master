@@ -96,7 +96,23 @@ const productSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+
+  // Admin-editable discount percentage (0 - 100)
+  discountPercentage: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 100,
+  },
 });
+
+// Optional: helper method to compute discounted price per product
+productSchema.methods.getDiscountedPrice = function () {
+  // `this.price` expected to be a Number (e.g. 499.99)
+  if (!this.discountPercentage || this.discountPercentage <= 0) return this.price;
+  const discounted = this.price * (1 - this.discountPercentage / 100);
+  return Math.round(discounted * 100) / 100; // round to 2 decimals
+};
 
 const ProductModel  = mongoose.model("ProductModel" , productSchema);
 module.exports =ProductModel
